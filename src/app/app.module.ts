@@ -22,6 +22,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatInputModule,
     MatCardModule,
     FlexLayoutModule,
+    LayoutModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

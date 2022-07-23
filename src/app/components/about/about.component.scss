@@ -1,9 +1,23 @@
 .content {
-  //   line-height: 30px;
-  //   font-size: 20px;
-  //   text-align: justify;
-  margin: 16px 16px 0 0;
+  mat-card {
+    line-height: 30px;
+    font-size: 20px;
+    text-align: justify;
+    margin: 16px 16px 0 0;
+    position: relative;
+  }
+  mat-icon {
+    position: sticky;
+    font-size: 26px;
+  }
 }
+
+// mat-card.main-content {
+//   line-height: 30px;
+//   font-size: 20px;
+//   text-align: justify;
+//   margin: 16px 16px 0 0;
+// }
 
 // .content > mat-card {
 //   width: 200px;
