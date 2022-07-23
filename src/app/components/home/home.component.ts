@@ -55,11 +55,9 @@ export class HomeComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.innerWidth = window.innerWidth;
-    console.log(this.innerWidth);
   }
   toggleFlag(eventData: { flag: boolean }): void {
     if (this.innerWidth < 800) {
-      console.log('innetwidth-', this.innerWidth);
       this.sidenav.mode = 'over';
       this.sidenav.close();
       // this.flipMenuIcon();
