@@ -20,6 +20,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRippleModule } from '@angular/material/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { MatInputModule } from '@angular/material/input';
     MatRippleModule,
     MatStepperModule,
     MatInputModule,
+    MatCardModule,
+    FlexLayoutModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

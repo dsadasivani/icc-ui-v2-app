@@ -1,0 +1,22 @@
+.content {
+  //   line-height: 30px;
+  //   font-size: 20px;
+  //   text-align: justify;
+  margin: 16px 16px 0 0;
+}
+
+// .content > mat-card {
+//   width: 200px;
+// }
+
+.content-flex {
+  //   padding: 16px;
+  mat-card {
+    width: 200px;
+    margin: 16px 16px 0 0;
+    // padding: 10px;
+  }
+  div {
+    padding: 16px 0 0 16px;
+  }
+}
