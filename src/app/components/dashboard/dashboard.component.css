@@ -1,10 +1,14 @@
 table {
   width: 100%;
 }
+th {
+  font-size: 12px;
+  font-weight: bolder;
+  background-color: #dee5ec;
+}
 
 .container {
-  /* height: 400px; */
-  /* width: 550px; */
+  max-height: 75vh;
   max-width: 100%;
   overflow: auto;
 }
@@ -18,9 +22,3 @@ table {
 .mat-column-orderId {
   min-width: 68px;
 }
-/*.mat-column-invoiceDate {
-  min-width: 108px;
-}
-.mat-column-companyName {
-  min-width: 108px;
-} */

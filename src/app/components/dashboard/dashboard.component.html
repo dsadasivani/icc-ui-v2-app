@@ -1,5 +1,5 @@
-<div class="container">
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+<div class="container mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort>
     <ng-container matColumnDef="orderId">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Order ID</th>
       <td mat-cell *matCellDef="let order">{{ order.orderId }}</td>
@@ -13,7 +13,7 @@
     <ng-container matColumnDef="invoiceDate">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Invoice Date</th>
       <td mat-cell *matCellDef="let order">
-        {{ order.invoiceDate | date: "mediumDate" }}
+        {{ order.invoiceDate | date: "medium" }}
       </td>
     </ng-container>
 
@@ -28,6 +28,6 @@
 
 <mat-paginator
   class="mat-elevation-z8"
-  [pageSizeOptions]="[5, 10, 15]"
+  [pageSizeOptions]="[10, 15, 20]"
   showFirstLastButtons
 ></mat-paginator>
