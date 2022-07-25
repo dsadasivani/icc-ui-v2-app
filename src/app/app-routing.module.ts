@@ -5,6 +5,7 @@ import { CreateOrderComponent } from './components/create-order/create-order.com
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProductsComponent } from './components/products/products.component';
+import { UnderProgressComponent } from './components/under-progress/under-progress.component';
 
 const routes: Routes = [
   {
@@ -17,11 +18,11 @@ const routes: Routes = [
       },
       {
         path: 'dashboard',
-        component: DashboardComponent,
+        component: UnderProgressComponent,
       },
       {
         path: 'products',
-        component: ProductsComponent,
+        component: UnderProgressComponent,
       },
       {
         path: 'create-order',

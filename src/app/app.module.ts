@@ -23,6 +23,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { LayoutModule } from '@angular/cdk/layout';
+import { UnderProgressComponent } from './components/under-progress/under-progress.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     DashboardComponent,
     CreateOrderComponent,
     ProductsComponent,
+    UnderProgressComponent,
   ],
   imports: [
     BrowserModule,

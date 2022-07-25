@@ -1,14 +1,77 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600&display=swap");
 .content {
   mat-card {
-    line-height: 30px;
-    font-size: 20px;
-    text-align: justify;
-    // margin: 16px 16px 0 0;
-    position: relative;
+    font-family: "Source Serif Pro", serif;
   }
-  mat-icon {
-    position: sticky;
-    font-size: 26px;
+  mat-card-title {
+    line-height: 30px;
+  }
+  font-family: "Ibarra Real Nova", serif;
+  .content-main {
+    mat-card {
+      font-weight: 600;
+      mat-card-title {
+        font-weight: bolder;
+        text-shadow: 1px 1px 3px;
+      }
+    }
+    mat-card-content {
+      line-height: 30px;
+      font-size: 20px;
+      // text-align: justify;
+      // margin: 16px 16px 0 0;
+      position: relative;
+    }
+    mat-icon {
+      position: sticky;
+      font-size: 26px;
+    }
+    mat-card-actions {
+      padding: 0 0 8px 8px;
+      .mat-raised-button.mat-success {
+        color: #f0fff3;
+        background-color: #0f172b;
+      }
+      .mat-raised-button.mat-success:hover {
+        background-color: white;
+        color: #0f172b;
+        outline-color: white;
+      }
+    }
+  }
+  .content-flex {
+    //   padding: 16px;
+    mat-card {
+      width: 200px;
+      margin: 16px 16px 0 0;
+      mat-card-content {
+        // text-align: justify;
+        font-size: 15px;
+        line-height: 25px;
+      }
+      mat-icon {
+        position: sticky;
+        font-size: 21px;
+        padding: 0;
+      }
+      mat-card-actions {
+        padding: 0 0 8px 8px;
+        .mat-button.mat-success,
+        .mat-stroked-button.mat-success {
+          color: #0f172b;
+          padding: 0 8px 0 0;
+          border-radius: 0 12px 12px 0;
+        }
+      }
+      mat-card-title {
+        // font-weight: bolder;
+        text-shadow: 1px 1px 2px;
+      }
+    }
+
+    div {
+      padding: 16px 0 0 16px;
+    }
   }
 }
 
@@ -22,15 +85,3 @@
 // .content > mat-card {
 //   width: 200px;
 // }
-
-.content-flex {
-  //   padding: 16px;
-  mat-card {
-    width: 200px;
-    margin: 16px 16px 0 0;
-    // padding: 10px;
-  }
-  div {
-    padding: 16px 0 0 16px;
-  }
-}
