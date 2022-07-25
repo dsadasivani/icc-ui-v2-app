@@ -18,7 +18,7 @@ const routes: Routes = [
       },
       {
         path: 'dashboard',
-        component: UnderProgressComponent,
+        component: DashboardComponent,
       },
       {
         path: 'products',

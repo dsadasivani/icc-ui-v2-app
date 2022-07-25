@@ -1,0 +1,26 @@
+table {
+  width: 100%;
+}
+
+.container {
+  /* height: 400px; */
+  /* width: 550px; */
+  max-width: 100%;
+  overflow: auto;
+}
+
+.mat-column-salesPersonName,
+.mat-column-invoiceDate,
+.mat-column-companyName {
+  min-width: 110px;
+  padding-right: 15px;
+}
+.mat-column-orderId {
+  min-width: 68px;
+}
+/*.mat-column-invoiceDate {
+  min-width: 108px;
+}
+.mat-column-companyName {
+  min-width: 108px;
+} */
