@@ -8,7 +8,7 @@ import { OrdersService } from 'src/services/orders.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
   displayedColumns: string[] = [
@@ -17,6 +17,7 @@ export class DashboardComponent implements OnInit {
     'invoiceDate',
     'companyName',
   ];
+  isLoading: boolean = true;
   public orderList = new Array<Orders>();
   dataSource = new MatTableDataSource<Orders>();
   @ViewChild(MatPaginator)
@@ -27,10 +28,11 @@ export class DashboardComponent implements OnInit {
   constructor(private orderService: OrdersService) {}
 
   ngOnInit(): void {
-    this.orderService.getOrders(0, 50).subscribe((result) => {
+    this.orderService.getOrders(0, 200).subscribe((result) => {
       this.orderList = result.map((orders: Orders) =>
         new Orders().deserialize(orders)
       );
+      this.isLoading = false;
       this.dataSource.data = this.orderList;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

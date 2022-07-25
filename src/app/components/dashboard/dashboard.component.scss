@@ -1,0 +1,47 @@
+table {
+  width: 100%;
+}
+th {
+  font-size: 12px;
+  font-weight: bolder;
+  background-color: #dee5ec;
+}
+
+.container {
+  max-height: 75vh;
+  max-width: 100%;
+  overflow: auto;
+}
+
+.mat-column-salesPersonName,
+.mat-column-invoiceDate,
+.mat-column-companyName {
+  min-width: 110px;
+  padding-right: 15px;
+}
+.mat-column-orderId {
+  min-width: 68px;
+}
+
+.mat-progress-bar {
+  /* color: #0f172b; */
+  color: red;
+}
+
+::ng-deep .mat-progress-bar-fill::after {
+  background-color: #0f172b;
+}
+
+.no-content {
+  // min-height: 77vh;
+  text-align: left;
+  padding-top: 10px;
+  .name {
+    margin-top: 8px;
+    // font-weight: bolder;
+    font-size: 20px;
+    font-style: italic;
+    color: #0f172b;
+    // text-shadow: 1px 1px 2px;
+  }
+}
