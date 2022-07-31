@@ -39,7 +39,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   @ViewChild('scroller')
   scroller!: CdkVirtualScrollViewport;
 
-  noOfRecords: number = 200;
+  noOfRecords: number = 50;
   offset: number = 0;
   fullDataLoaded: boolean = false;
   completeMessage: string = '';
@@ -68,12 +68,17 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
   private fetchOrders() {
     if (!this.fullDataLoaded) {
-      this.orderService.getOrders(this.offset, 50).subscribe({
+      this.orderService.getOrders(this.offset, this.noOfRecords).subscribe({
         next: (result) => {
           this.orderList = result.map((orders: Orders) =>
             new Orders().deserialize(orders)
           );
-          if (this.orderList.length == 0) this.fullDataLoaded = true;
+          if (
+            this.orderList.length == 0 ||
+            this.orderList.length < this.noOfRecords
+          ) {
+            this.fullDataLoaded = true;
+          }
           this.isLoading = false;
           this.loadMore = false;
           this.dataSource.data.push(...this.orderList);
