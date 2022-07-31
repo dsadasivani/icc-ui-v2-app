@@ -11,10 +11,13 @@ export class OrdersService {
   baseUrl = environment.baseUrl;
   constructor(private _http: HttpClient) {}
 
-  getOrders(offsetValue: number, size: number): Observable<Orders[]> {
+  getOrders(
+    offsetValue: number,
+    numberOfRecords: number
+  ): Observable<Orders[]> {
     const params = new HttpParams()
       .set('offset', offsetValue.toString())
-      .set('numberOfRecords', size.toString());
+      .set('numberOfRecords', numberOfRecords.toString());
     return this._http.get<Orders[]>(this.baseUrl + 'getOrders', { params });
   }
 }
