@@ -12,6 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Orders } from 'src/app/model/orders';
 import { OrdersService } from 'src/services/orders.service';
 import { map, pairwise, filter, throttleTime } from 'rxjs/operators';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,6 +29,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   loadingMessage: string = '';
   isError: boolean = false;
   isLoading: boolean = true;
+  loadMore: boolean = false;
   public orderList = new Array<Orders>();
   dataSource = new MatTableDataSource<Orders>();
   @ViewChild(MatPaginator)
@@ -40,6 +42,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   noOfRecords: number = 200;
   offset: number = 0;
   fullDataLoaded: boolean = false;
+  completeMessage: string = '';
 
   constructor(private orderService: OrdersService, private ngZone: NgZone) {}
 
@@ -57,6 +60,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       )
       .subscribe(() => {
         this.ngZone.run(() => {
+          this.loadMore = true;
           this.offset++;
           this.fetchOrders();
         });
@@ -71,6 +75,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           );
           if (this.orderList.length == 0) this.fullDataLoaded = true;
           this.isLoading = false;
+          this.loadMore = false;
           this.dataSource.data.push(...this.orderList);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -78,10 +83,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         error: (error) => {
           this.loadingMessage = '*Unable to get orders....';
           this.isError = true;
-          this.isLoading = false;
+          this.isLoading = true;
+          this.loadMore = false;
           console.log('Error occurred:::', error);
         },
       });
+    } else {
+      this.loadMore = false;
+      this.completeMessage = 'All orders fetched...!!';
     }
   }
 }

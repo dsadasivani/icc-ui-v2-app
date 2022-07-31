@@ -40,5 +40,14 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
+    <div *ngIf="loadMore" class="spinner-item">
+      <mat-progress-spinner [mode]="'indeterminate'" [diameter]="30">
+      </mat-progress-spinner>
+    </div>
+    <div class="complete-message" *ngIf="completeMessage.length > 0">
+      <mat-icon fontIcon="done_all"></mat-icon>
+      <span> {{ completeMessage }} </span>
+      <mat-icon>thumb_up</mat-icon>
+    </div>
   </cdk-virtual-scroll-viewport>
 </div>
