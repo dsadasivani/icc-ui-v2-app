@@ -17,6 +17,8 @@ export class DashboardComponent implements OnInit {
     'invoiceDate',
     'companyName',
   ];
+  loadingMessage: string = '';
+  isError: boolean = false;
   isLoading: boolean = true;
   public orderList = new Array<Orders>();
   dataSource = new MatTableDataSource<Orders>();
@@ -28,14 +30,22 @@ export class DashboardComponent implements OnInit {
   constructor(private orderService: OrdersService) {}
 
   ngOnInit(): void {
-    this.orderService.getOrders(0, 200).subscribe((result) => {
-      this.orderList = result.map((orders: Orders) =>
-        new Orders().deserialize(orders)
-      );
-      this.isLoading = false;
-      this.dataSource.data = this.orderList;
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
+    this.orderService.getOrders(0, 200).subscribe(
+      (result) => {
+        this.orderList = result.map((orders: Orders) =>
+          new Orders().deserialize(orders)
+        );
+        this.isLoading = false;
+        this.dataSource.data = this.orderList;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      (error) => {
+        this.loadingMessage = '*Unable to get orders....';
+        this.isError = true;
+        this.isLoading = false;
+        console.log('Error occurred:::', error);
+      }
+    );
   }
 }
