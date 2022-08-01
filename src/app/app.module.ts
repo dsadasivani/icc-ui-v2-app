@@ -31,6 +31,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatProgressBarModule,
     MatProgressSpinnerModule,
     ScrollingModule,
+    MatSnackBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

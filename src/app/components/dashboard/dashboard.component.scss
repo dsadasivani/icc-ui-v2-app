@@ -23,30 +23,10 @@ th {
   min-width: 68px;
 }
 
-.mat-progress-bar {
-  /* color: #0f172b; */
-  color: red;
-}
-
 ::ng-deep .mat-progress-bar-fill::after {
   background-color: #0f172b;
 }
 
-.no-content {
-  text-align: left;
-  padding-top: 10px;
-  .name {
-    margin-top: -12px;
-    font-size: 1rem;
-    color: red;
-  }
-  button {
-    background: none;
-    text-decoration-line: underline;
-    padding: 0px;
-    color: #0f172b;
-  }
-}
 .content {
   height: calc(100vh - 120px);
   overflow: auto;
@@ -63,18 +43,24 @@ th {
   }
 }
 
-.complete-message {
-  padding-left: 15px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  font-style: oblique;
-  font-size: 1rem;
-  background-color: white;
-  span {
-    line-height: 50px;
+::ng-deep snack-bar-container.error-snackbar {
+  background-color: #0f172b;
+  font-weight: bold;
+  .mat-button,
+  .mat-icon-button,
+  .mat-stroked-button {
+    color: #911f1f;
+    font-size: 15px;
+    font-weight: bold;
   }
-  mat-icon {
-    height: 21px;
-    padding: 0 5px 0 5px;
+}
+::ng-deep snack-bar-container.good-snackbar {
+  background-color: #0f172b;
+  font-weight: bold;
+  .mat-button,
+  .mat-icon-button,
+  .mat-stroked-button {
+    font-size: 15px;
+    font-weight: bold;
   }
 }

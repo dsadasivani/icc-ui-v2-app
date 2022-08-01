@@ -13,6 +13,7 @@ import { Orders } from 'src/app/model/orders';
 import { OrdersService } from 'src/services/orders.service';
 import { map, pairwise, filter, throttleTime } from 'rxjs/operators';
 import { timer } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,7 +28,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     'companyName',
   ];
   loadingMessage: string = '';
-  isError: boolean = false;
   isLoading: boolean = true;
   loadMore: boolean = false;
   public orderList = new Array<Orders>();
@@ -42,9 +42,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   noOfRecords: number = 50;
   offset: number = 0;
   fullDataLoaded: boolean = false;
-  completeMessage: string = '';
 
-  constructor(private orderService: OrdersService, private ngZone: NgZone) {}
+  constructor(
+    private orderService: OrdersService,
+    private ngZone: NgZone,
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.fetchOrders();
@@ -87,15 +90,27 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         },
         error: (error) => {
           this.loadingMessage = '*Unable to get orders....';
-          this.isError = true;
-          this.isLoading = true;
+          this.isLoading = false;
           this.loadMore = false;
+          let snackBarRef = this._snackBar.open(
+            'Unable to get Orders !!',
+            'Try again',
+            {
+              panelClass: 'error-snackbar',
+            }
+          );
+          snackBarRef.onAction().subscribe(() => {
+            window.location.reload();
+          });
           console.log('Error occurred:::', error);
         },
       });
     } else {
       this.loadMore = false;
-      this.completeMessage = 'All orders fetched...!!';
+      this._snackBar.open('All orders fetched...!!', 'Dismiss', {
+        duration: 3000,
+        panelClass: 'good-snackbar',
+      });
     }
   }
 }

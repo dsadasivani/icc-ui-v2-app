@@ -1,12 +1,4 @@
 <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-<div *ngIf="isError" class="no-content">
-  <p class="name">
-    {{ loadingMessage }}
-    <button mat-flat-button onclick="window.location.reload()">
-      Try again!!
-    </button>
-  </p>
-</div>
 <div class="container mat-elevation-z8">
   <cdk-virtual-scroll-viewport #scroller itemSize="72" class="content">
     <table
@@ -43,11 +35,6 @@
     <div *ngIf="loadMore" class="spinner-item">
       <mat-progress-spinner [mode]="'indeterminate'" [diameter]="30">
       </mat-progress-spinner>
-    </div>
-    <div class="complete-message" *ngIf="completeMessage.length > 0">
-      <mat-icon fontIcon="done_all"></mat-icon>
-      <span> {{ completeMessage }} </span>
-      <mat-icon>thumb_up</mat-icon>
     </div>
   </cdk-virtual-scroll-viewport>
 </div>
