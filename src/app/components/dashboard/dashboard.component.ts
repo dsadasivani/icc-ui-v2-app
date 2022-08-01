@@ -10,7 +10,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Orders } from 'src/app/model/orders';
-import { OrdersService } from 'src/services/orders.service';
+import { OrdersService } from 'src/app/services/orders.service';
 import { map, pairwise, filter, throttleTime } from 'rxjs/operators';
 import { timer } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
