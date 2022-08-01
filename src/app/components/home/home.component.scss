@@ -24,8 +24,22 @@ mat-toolbar {
     color: gray;
   }
   justify-content: space-between;
-  .box {
+  .box2 {
     margin-top: 15px;
+  }
+  .box1 {
+    mat-icon {
+      margin-top: 15px;
+      margin-left: 10px;
+    }
+    .title {
+      color: gray;
+      font-family: fantasy;
+      font-size: 2rem;
+      text-shadow: 1px 1px 3px;
+      letter-spacing: 2px;
+      text-decoration: none;
+    }
   }
 }
 

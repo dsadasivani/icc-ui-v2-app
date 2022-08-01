@@ -17,12 +17,8 @@ export class HomeComponent implements OnInit {
 
   menuIconName = 'menu';
   innerWidth: any;
+  mobileHeader: boolean = false;
   constructor(private observer: BreakpointObserver, private router: Router) {}
-  // flipMenuIcon(): void {
-  //   this.menuIconName === 'menu'
-  //     ? (this.menuIconName = 'menu_open')
-  //     : (this.menuIconName = 'menu');
-  // }
 
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
@@ -33,11 +29,11 @@ export class HomeComponent implements OnInit {
         if (res.matches) {
           this.sidenav.mode = 'over';
           this.sidenav.close();
-          // this.flipMenuIcon();
+          this.mobileHeader = true;
         } else {
           this.sidenav.mode = 'side';
           this.sidenav.open();
-          // this.flipMenuIcon();
+          this.mobileHeader = false;
         }
       });
     this.router.events
@@ -48,7 +44,6 @@ export class HomeComponent implements OnInit {
       .subscribe(() => {
         if (this.sidenav.mode === 'over') {
           this.sidenav.close();
-          // this.flipMenuIcon();
         }
       });
   }
@@ -60,7 +55,6 @@ export class HomeComponent implements OnInit {
     if (this.innerWidth < 800) {
       this.sidenav.mode = 'over';
       this.sidenav.close();
-      // this.flipMenuIcon();
     }
   }
 }

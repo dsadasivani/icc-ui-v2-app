@@ -6,10 +6,15 @@
     <div class="content">
       <div class="toolbar mat-elevation-z8">
         <mat-toolbar>
-          <mat-icon matRipple (click)="sidebar.toggle()">
-            {{ menuIconName }}
-          </mat-icon>
-          <div class="box">
+          <div class="box1">
+            <a *ngIf="mobileHeader" [routerLink]="['/about']" class="title"
+              >ICC</a
+            >
+            <mat-icon matRipple (click)="sidebar.toggle()">
+              {{ menuIconName }}
+            </mat-icon>
+          </div>
+          <div class="box2">
             <a [routerLink]="['/about']"><mat-icon>home</mat-icon></a>
             <mat-icon>search</mat-icon>
             <mat-icon>login</mat-icon>
