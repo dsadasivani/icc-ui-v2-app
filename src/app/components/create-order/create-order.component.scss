@@ -1,0 +1,30 @@
+mat-stepper {
+  // background-color: #dee5ec;
+}
+
+.mat-stepper-vertical {
+  margin-top: 8px;
+}
+
+.mat-form-field {
+  margin-top: 16px;
+  padding-left: 16px;
+  width: 30vw;
+  min-width: 200px;
+}
+.content-flex {
+  mat-card {
+    // background-color: #dee5ec;
+    box-shadow: none;
+    border-radius: 0px;
+  }
+}
+.semi-fields {
+  // width: 30vw;
+  .mat-form-field {
+    // display: flex;
+    // align-items: center;
+    width: 14.5vw;
+    min-width: 200px;
+  }
+}
