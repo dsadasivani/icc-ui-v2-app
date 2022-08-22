@@ -111,7 +111,12 @@
                 [matDatepicker]="picker"
                 formControlName="invoiceDate"
               />
-              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-hint *ngIf="!invoiceDate?.touched || !invoiceDate?.invalid"
+                >MM/DD/YYYY</mat-hint
+              >
+              <mat-error *ngIf="invoiceDate?.invalid">
+                <strong>MM/DD/YYYY</strong> format is accepted
+              </mat-error>
               <mat-datepicker-toggle
                 matSuffix
                 [for]="picker"
@@ -151,29 +156,118 @@
           <mat-form-field appearance="outline">
             <mat-label>Products</mat-label>
 
-            <mat-select multiple [formControl]="productsControl">
+            <mat-select
+              multiple
+              [formControl]="productsControl"
+              (valueChange)="changeValue($event)"
+            >
               <mat-select-trigger>
                 <mat-chip-list>
                   <mat-chip
                     *ngFor="let product of productsControl.value"
                     [removable]="true"
-                    (removed)="onProductRemoved(product)"
+                    (removed)="onProductRemoved(product.name)"
                     color="primary"
                     selected
                   >
-                    {{ product }}
+                    {{ product.value }}
                     <mat-icon matChipRemove>cancel</mat-icon>
                   </mat-chip>
                 </mat-chip-list>
               </mat-select-trigger>
               <mat-option
                 *ngFor="let product of productOptions"
-                [value]="product.value"
+                [value]="product"
+                (valueChange)="changeValue($event)"
                 >{{ product.value }}</mat-option
               >
               <!-- <mat-option>{{productOptions.length}}</mat-option> -->
             </mat-select>
           </mat-form-field>
+          <div
+            class="input-row"
+            *ngIf="showProductInputFields('product1')"
+            formGroupName="product1"
+          >
+            <b>LEAKSEAL - 1 Ltr x 20 Btls</b>
+            <mat-form-field appearance="fill">
+              <mat-label>Quantity</mat-label>
+              <input
+                formControlName="quantity"
+                matInput
+                type="number"
+                required
+              />
+            </mat-form-field>
+            <mat-form-field appearance="fill" floatLabel="always">
+              <mat-label>Amount</mat-label>
+              <input
+                formControlName="unitPrice"
+                matInput
+                type="number"
+                class="example-right-align"
+                placeholder="0"
+              />
+              <span matPrefix>₹&nbsp;</span>
+              <span matSuffix>.00</span>
+            </mat-form-field>
+          </div>
+          <div
+            formGroupName="product2"
+            class="input-row"
+            *ngIf="showProductInputFields('product2')"
+          >
+            <b>LEAKSEAL - 5 Ltr x 4 Jars</b>
+            <mat-form-field appearance="fill">
+              <mat-label>Quantity</mat-label>
+              <input
+                formControlName="quantity"
+                matInput
+                type="number"
+                required
+              />
+            </mat-form-field>
+            <mat-form-field appearance="fill" floatLabel="always">
+              <mat-label>Amount</mat-label>
+              <input
+                formControlName="unitPrice"
+                matInput
+                type="number"
+                class="example-right-align"
+                placeholder="0"
+              />
+              <span matPrefix>₹&nbsp;</span>
+              <span matSuffix>.00</span>
+            </mat-form-field>
+          </div>
+          <div
+            formGroupName="product3"
+            class="input-row"
+            *ngIf="showProductInputFields('product3')"
+          >
+            <b>LEAKSEAL - 100 Ml x 100 Pkts</b>
+            <mat-form-field appearance="fill">
+              <mat-label>Quantity</mat-label>
+              <input
+                formControlName="quantity"
+                matInput
+                type="number"
+                required
+              />
+            </mat-form-field>
+            <mat-form-field appearance="fill" floatLabel="always">
+              <mat-label>Amount</mat-label>
+              <input
+                formControlName="unitPrice"
+                matInput
+                type="number"
+                class="example-right-align"
+                placeholder="0"
+              />
+              <span matPrefix>₹&nbsp;</span>
+              <span matSuffix>.00</span>
+            </mat-form-field>
+          </div>
           <!-- </div> -->
           <!-- <mat-chip-list aria-label="Products" multiple>
             <mat-chip value="product1">1 ltr Bottles</mat-chip>
@@ -187,17 +281,60 @@
         </form>
       </mat-step>
       <mat-step>
-        <ng-template matStepLabel>Done</ng-template>
-        <p>You are now done.</p>
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button (click)="stepper.reset()">Reset</button>
-        </div>
+        <ng-template matStepLabel>Discounts & Tax</ng-template>
+        <form [formGroup]="thirdFormGroup">
+          <div class="discount">
+            <mat-checkbox formControlName="tradeDiscount"
+              >Trade Discount</mat-checkbox
+            >&nbsp;
+            <mat-slider
+              formControlName="tradeDiscountValue"
+              thumbLabel
+              [displayWith]="formatLabel"
+              tickInterval="10"
+              step="1"
+              min="0"
+              max="100"
+              aria-labelledby="example-name-label"
+              [(value)]="tradeDiscountPercentage"
+              [disabled]="!tradeDiscountChecked"
+            ></mat-slider
+            ><label class="example-value-label"
+              ><strong>{{ tradeDiscountPercentage }}</strong></label
+            >
+          </div>
+          <div class="discount">
+            <mat-checkbox formControlName="cashDiscount"
+              >Cash Discount</mat-checkbox
+            >&nbsp;&nbsp;
+            <mat-slider
+              formControlName="cashDiscountValue"
+              thumbLabel
+              [displayWith]="formatLabel"
+              tickInterval="10"
+              step="1"
+              min="0"
+              max="100"
+              aria-labelledby="example-name-label"
+              [(value)]="cashDiscountPercentage"
+              [disabled]="!cashDiscountChecked"
+            ></mat-slider
+            ><label class="example-value-label"
+              ><strong>{{ cashDiscountPercentage }}</strong></label
+            >
+          </div>
+
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button (click)="stepper.reset()">Reset</button>
+          </div>
+        </form>
       </mat-step>
     </mat-stepper>
   </mat-card>
   <mat-card fxFlex="40%" fxFlex.xs="100%" fxFlex.sm="100%">
     {{ firstFormGroup.valueChanges | async | json }} <br />
-    {{ secondFormGroup.valueChanges | async | json }}
+    {{ secondFormGroup.valueChanges | async | json }} <br />
+    {{ thirdFormGroup.valueChanges | async | json }}
   </mat-card>
 </div>

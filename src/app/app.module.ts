@@ -35,6 +35,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSliderModule } from '@angular/material/slider';
 
 @NgModule({
   declarations: [
@@ -78,6 +80,8 @@ import { MatChipsModule } from '@angular/material/chips';
     MatDatepickerModule,
     MatNativeDateModule,
     MatChipsModule,
+    MatCheckboxModule,
+    MatSliderModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

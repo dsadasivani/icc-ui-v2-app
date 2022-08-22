@@ -28,3 +28,22 @@ mat-stepper {
     min-width: 200px;
   }
 }
+.input-row {
+  b {
+    color: #0f172b;
+    padding-left: 16px;
+  }
+  // max-width: 200px;
+  // display: flex;
+  // align-items: center;
+  .mat-form-field {
+    width: 8.5vw;
+    // max-width: 130px;
+    min-width: 90px;
+  }
+}
+
+.discount {
+  // margin: 12px 0;
+  padding: 12px 0;
+}
