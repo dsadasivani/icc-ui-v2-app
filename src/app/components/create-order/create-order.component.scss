@@ -96,3 +96,7 @@ mat-progress-spinner {
     font-weight: bold;
   }
 }
+
+::ng-deep .mat-step-text-label {
+  font-size: large;
+}
