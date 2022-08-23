@@ -282,51 +282,81 @@
       </mat-step>
       <mat-step>
         <ng-template matStepLabel>Discounts & Tax</ng-template>
-        <form [formGroup]="thirdFormGroup">
-          <div class="discount">
-            <mat-checkbox formControlName="tradeDiscount"
-              >Trade Discount</mat-checkbox
-            >&nbsp;
-            <mat-slider
-              formControlName="tradeDiscountValue"
-              thumbLabel
-              [displayWith]="formatLabel"
-              tickInterval="10"
-              step="1"
-              min="0"
-              max="100"
-              aria-labelledby="example-name-label"
-              [(value)]="tradeDiscountPercentage"
-              [disabled]="!tradeDiscountChecked"
-            ></mat-slider
-            ><label class="example-value-label"
-              ><strong>{{ tradeDiscountPercentage }}</strong></label
-            >
-          </div>
-          <div class="discount">
-            <mat-checkbox formControlName="cashDiscount"
-              >Cash Discount</mat-checkbox
-            >&nbsp;&nbsp;
-            <mat-slider
-              formControlName="cashDiscountValue"
-              thumbLabel
-              [displayWith]="formatLabel"
-              tickInterval="10"
-              step="1"
-              min="0"
-              max="100"
-              aria-labelledby="example-name-label"
-              [(value)]="cashDiscountPercentage"
-              [disabled]="!cashDiscountChecked"
-            ></mat-slider
-            ><label class="example-value-label"
-              ><strong>{{ cashDiscountPercentage }}</strong></label
-            >
-          </div>
 
+        <form [formGroup]="thirdFormGroup">
+          <div class="content-flex" fxLayout="row wrap" fxLayoutGap="grid">
+            <div
+              class="discount"
+              fxFlex="50%"
+              fxFlex.xs="100%"
+              fxFlex.sm="100%"
+            >
+              <mat-checkbox formControlName="tradeDiscount"
+                >Trade Discount</mat-checkbox
+              >&nbsp;
+              <mat-slider
+                formControlName="tradeDiscountValue"
+                thumbLabel
+                [displayWith]="formatLabel"
+                tickInterval="10"
+                step="1"
+                min="0"
+                max="100"
+                aria-labelledby="example-name-label"
+                [(value)]="tradeDiscountPercentage"
+                [disabled]="!tradeDiscountChecked"
+              ></mat-slider
+              ><label class="example-value-label"
+                ><strong>{{ tradeDiscountPercentage }}</strong></label
+              >
+            </div>
+            <div
+              class="discount"
+              fxFlex="50%"
+              fxFlex.xs="100%"
+              fxFlex.sm="100%"
+            >
+              <mat-checkbox formControlName="cashDiscount"
+                >Cash Discount</mat-checkbox
+              >&nbsp;&nbsp;
+              <mat-slider
+                formControlName="cashDiscountValue"
+                thumbLabel
+                [displayWith]="formatLabel"
+                tickInterval="10"
+                step="1"
+                min="0"
+                max="100"
+                aria-labelledby="example-name-label"
+                [(value)]="cashDiscountPercentage"
+                [disabled]="!cashDiscountChecked"
+              ></mat-slider
+              ><label class="example-value-label"
+                ><strong>{{ cashDiscountPercentage }}</strong></label
+              >
+            </div>
+            <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="100%">
+              <div class="special-fields">
+                <mat-form-field appearance="outline">
+                  <mat-label>Order Scope</mat-label>
+                  <mat-select formControlName="orderScope">
+                    <mat-option
+                      *ngFor="let selectedScope of orderScopeOptions"
+                      [value]="selectedScope.name"
+                    >
+                      {{ selectedScope.value }}
+                    </mat-option> </mat-select
+                  ><mat-error *ngIf="orderScope?.invalid">
+                    Please select <strong>IGST</strong> or
+                    <strong>(CGST + SGST)</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
           <div>
             <button mat-button matStepperPrevious>Back</button>
-            <button mat-button (click)="stepper.reset()">Reset</button>
+            <button mat-button (click)="save()">Submit</button>
           </div>
         </form>
       </mat-step>

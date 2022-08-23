@@ -37,6 +37,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSliderModule } from '@angular/material/slider';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,7 @@ import { MatSliderModule } from '@angular/material/slider';
     MatCheckboxModule,
     MatSliderModule,
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

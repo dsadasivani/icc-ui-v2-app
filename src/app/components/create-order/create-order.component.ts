@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { MatChipSelectionChange } from '@angular/material/chips';
 import { Product } from 'src/app/model/products';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-create-order',
@@ -28,6 +29,10 @@ export class CreateOrderComponent implements OnInit {
     { name: 'OTHERS' },
   ];
   termsOptions = [{ name: 'Cash' }, { name: 'Credit' }];
+  orderScopeOptions = [
+    { name: 'state', value: 'Within State(CGST + SGST)' },
+    { name: 'interState', value: 'Inter-State(IGST)' },
+  ];
   creditOptions = [
     { name: '7 Days', value: 7 },
     { name: '15 Days', value: 15 },
@@ -41,7 +46,7 @@ export class CreateOrderComponent implements OnInit {
   cashDiscountPercentage: any = 0;
   tradeDiscountPercentage: any = 0;
 
-  constructor(private _formBuilder: FormBuilder) {}
+  constructor(private _formBuilder: FormBuilder, private datepipe: DatePipe) {}
 
   ngOnInit(): void {
     this.firstFormGroup = this._formBuilder.group({
@@ -81,11 +86,15 @@ export class CreateOrderComponent implements OnInit {
       tradeDiscountValue: ['', Validators.required],
       cashDiscount: [false],
       cashDiscountValue: ['', Validators.required],
+      orderScope: ['', Validators.required],
     });
   }
 
   get invoiceDate() {
     return this.secondFormGroup.get('invoiceDate');
+  }
+  get orderScope() {
+    return this.thirdFormGroup.get('orderScope');
   }
 
   get tradeDiscountChecked() {
@@ -97,6 +106,18 @@ export class CreateOrderComponent implements OnInit {
   fun1(_event: any) {
     console.log(_event);
     console.log(this.firstFormGroup.value);
+  }
+  save() {
+    var finalObj = Object.assign(
+      this.firstFormGroup.value,
+      this.secondFormGroup.value,
+      this.thirdFormGroup.value
+    );
+    finalObj.invoiceDate = this.datepipe.transform(
+      finalObj.invoiceDate,
+      'yyyy-MM-dd'
+    );
+    console.log(finalObj);
   }
   changeValue(event: any) {
     console.log('sasaadsdsd', event);
