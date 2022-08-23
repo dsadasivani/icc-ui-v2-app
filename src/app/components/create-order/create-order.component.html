@@ -3,6 +3,13 @@
   fxLayout="row wrap"
   fxLayoutGap="grid"
 >
+  <ng-container *ngIf="isLoading">
+    <div class="overlay"></div>
+    <mat-progress-spinner
+      *ngIf="isLoading"
+      [mode]="'indeterminate'"
+    ></mat-progress-spinner
+  ></ng-container>
   <mat-card fxFlex="60%" fxFlex.xs="100%" fxFlex.sm="100%">
     <mat-stepper orientation="vertical" #stepper>
       <mat-step [stepControl]="firstFormGroup">

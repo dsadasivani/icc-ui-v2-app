@@ -9,6 +9,9 @@ import {
 import { MatChipSelectionChange } from '@angular/material/chips';
 import { Product } from 'src/app/model/products';
 import { DatePipe } from '@angular/common';
+import { OrdersService } from 'src/app/services/orders.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-order',
@@ -45,10 +48,21 @@ export class CreateOrderComponent implements OnInit {
   ];
   cashDiscountPercentage: any = 0;
   tradeDiscountPercentage: any = 0;
+  isLoading = false;
 
-  constructor(private _formBuilder: FormBuilder, private datepipe: DatePipe) {}
+  constructor(
+    private _formBuilder: FormBuilder,
+    private datepipe: DatePipe,
+    private orderService: OrdersService,
+    private _snackBar: MatSnackBar,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
+    this.initializeFormGroups();
+  }
+
+  private initializeFormGroups() {
     this.firstFormGroup = this._formBuilder.group({
       companyName: ['', Validators.required],
       address: ['', Validators.required],
@@ -59,7 +73,7 @@ export class CreateOrderComponent implements OnInit {
     this.secondFormGroup = this._formBuilder.group({
       salesPersonName: ['', Validators.required],
       transport: ['', Validators.required],
-      transportOther: ['', Validators.required],
+      otherTransport: ['', Validators.required],
       fobPoint: ['', Validators.required],
       invoiceNumber: ['', Validators.required],
       invoiceDate: new FormControl('', Validators.required),
@@ -118,6 +132,29 @@ export class CreateOrderComponent implements OnInit {
       'yyyy-MM-dd'
     );
     console.log(finalObj);
+    this.isLoading = true;
+    this.orderService.addOrderDetails(finalObj).subscribe({
+      next: (result: any) => {
+        this._snackBar.open(result.data, 'Dismiss', {
+          duration: 3000,
+          panelClass: 'good-snackbar',
+        });
+        // this.initializeFormGroups();
+        this.isLoading = false;
+        this.initializeFormGroups();
+        this.resetPage();
+        this.router.navigate(['dashboard']);
+        console.log(result);
+      },
+      error: (result) => {
+        console.log(result);
+        this._snackBar.open(result.error.exceptionMessage, 'Dismiss', {
+          duration: 3000,
+          panelClass: 'error-snackbar',
+        });
+        this.isLoading = false;
+      },
+    });
   }
   changeValue(event: any) {
     console.log('sasaadsdsd', event);
@@ -157,7 +194,15 @@ export class CreateOrderComponent implements OnInit {
       this.secondFormGroup.get(product + '.unitPrice')?.setValue(0);
     }
   }
-
+  resetPage() {
+    this.cashDiscountPercentage = 0;
+    this.tradeDiscountPercentage = 0;
+    this.firstFormGroup.reset();
+    this.secondFormGroup.reset();
+    this.thirdFormGroup.reset();
+    this.productsControl.reset();
+    this.productOptions.map((x) => (x.selected = false));
+  }
   private removeFirst(array: any, toRemove: any): void {
     const index = array.findIndex((x: { name: any }) => x.name == toRemove);
     if (index !== -1) {

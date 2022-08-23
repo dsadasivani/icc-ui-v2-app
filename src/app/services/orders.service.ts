@@ -20,4 +20,8 @@ export class OrdersService {
       .set('numberOfRecords', numberOfRecords.toString());
     return this._http.get<Orders[]>(this.baseUrl + 'getOrders', { params });
   }
+
+  addOrderDetails(data: any) {
+    return this._http.post(this.baseUrl + 'createOrder', data);
+  }
 }

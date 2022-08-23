@@ -59,3 +59,40 @@ mat-stepper {
 .mat-checkbox {
   padding: 0 0 12px 0;
 }
+mat-progress-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  backdrop-filter: blur(2px);
+}
+::ng-deep snack-bar-container.error-snackbar {
+  background-color: #0f172b;
+  font-weight: bold;
+  .mat-button,
+  .mat-icon-button,
+  .mat-stroked-button {
+    color: #911f1f;
+    font-size: 15px;
+    font-weight: bold;
+  }
+}
+::ng-deep snack-bar-container.good-snackbar {
+  background-color: #0f172b;
+  font-weight: bold;
+  .mat-button,
+  .mat-icon-button,
+  .mat-stroked-button {
+    font-size: 15px;
+    font-weight: bold;
+  }
+}
