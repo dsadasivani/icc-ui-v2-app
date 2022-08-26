@@ -1,0 +1,104 @@
+<h1 mat-dialog-title>Price Calculations</h1>
+<mat-dialog-content class="mat-typography">
+  <!-- {{ data | json }} -->
+  <div>
+    <mat-list role="list">
+      <mat-list-item role="listitem"
+        ><div class="dialog-main-row">
+          <p>LEAKSEAL - 1 ltr</p>
+          <small class="text-muted"
+            >{{ data.product1.quantity }} cartons with unit price -
+            {{
+              data.product1.unitPrice | currency: "INR":"symbol":"1.0-0"
+            }}</small
+          >
+        </div>
+        <div>
+          <span class="text-muted">{{
+            data.product1.quantity * data.product1.unitPrice
+              | currency: "INR":"symbol":"1.0-0"
+          }}</span>
+        </div></mat-list-item
+      >
+      <mat-list-item role="listitem"
+        ><div class="dialog-main-row">
+          <p>LEAKSEAL - 5 ltr</p>
+          <small class="text-muted"
+            >{{ data.product2.quantity }} cartons with unit price -
+            {{
+              data.product2.unitPrice | currency: "INR":"symbol":"1.0-0"
+            }}</small
+          >
+        </div>
+        <div>
+          <span class="text-muted">{{
+            data.product2.quantity * data.product2.unitPrice
+              | currency: "INR":"symbol":"1.0-0"
+          }}</span>
+        </div></mat-list-item
+      >
+      <mat-list-item role="listitem"
+        ><div class="dialog-main-row">
+          <p>LEAKSEAL - 100 ml</p>
+          <small class="text-muted"
+            >{{ data.product3.quantity }} cartons with unit price -
+            {{
+              data.product3.unitPrice | currency: "INR":"symbol":"1.0-0"
+            }}</small
+          >
+        </div>
+        <div>
+          <span class="text-muted">{{
+            data.product3.quantity * data.product3.unitPrice
+              | currency: "INR":"symbol":"1.0-0"
+          }}</span>
+        </div></mat-list-item
+      >
+      <mat-list-item role="listitem"
+        ><div class="dialog-main-row">
+          <p>Trade Discount({{ data.tradeDiscountValue }}%)</p>
+        </div>
+        <div>
+          <span class="text-muted">{{
+            data.product3.quantity * data.tradeDiscountValue
+              | currency: "INR":"symbol":"1.0-0"
+          }}</span>
+        </div></mat-list-item
+      >
+      <mat-list-item role="listitem"
+        ><div class="dialog-main-row">
+          <p>Cash Discount({{ data.cashDiscountValue }}%)</p>
+        </div>
+        <div>
+          <span class="text-muted">{{
+            data.product3.quantity * data.cashDiscountValue
+              | currency: "INR":"symbol":"1.0-0"
+          }}</span>
+        </div></mat-list-item
+      >
+      <mat-list-item role="listitem"
+        ><div class="dialog-main-row">
+          <p>GST</p>
+          <small *ngIf="data.orderScope == 'state'" class="text-muted"
+            >CGST - 9% + SGST - 9%</small
+          >
+          <small *ngIf="data.orderScope == 'interState'" class="text-muted"
+            >IGST - 18%</small
+          >
+        </div>
+        <div>
+          <span class="text-muted">{{
+            data.product3.quantity * data.product3.unitPrice
+              | currency: "INR":"symbol":"1.0-0"
+          }}</span>
+        </div></mat-list-item
+      >
+    </mat-list>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Edit</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>
+    Save Order
+  </button>
+</mat-dialog-actions>

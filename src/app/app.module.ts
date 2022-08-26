@@ -38,6 +38,9 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSliderModule } from '@angular/material/slider';
 import { DatePipe } from '@angular/common';
+import { MatDialogModule } from '@angular/material/dialog';
+import { OrderDetailsDialogComponent } from './components/create-order/order-details-dialog/order-details-dialog.component';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -49,6 +52,7 @@ import { DatePipe } from '@angular/common';
     CreateOrderComponent,
     ProductsComponent,
     UnderProgressComponent,
+    OrderDetailsDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -83,6 +87,8 @@ import { DatePipe } from '@angular/common';
     MatChipsModule,
     MatCheckboxModule,
     MatSliderModule,
+    MatDialogModule,
+    MatListModule,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],

@@ -308,7 +308,7 @@
                 tickInterval="10"
                 step="1"
                 min="0"
-                max="100"
+                max="50"
                 aria-labelledby="example-name-label"
                 [(value)]="tradeDiscountPercentage"
                 [disabled]="!tradeDiscountChecked"
@@ -333,7 +333,7 @@
                 tickInterval="10"
                 step="1"
                 min="0"
-                max="100"
+                max="50"
                 aria-labelledby="example-name-label"
                 [(value)]="cashDiscountPercentage"
                 [disabled]="!cashDiscountChecked"
@@ -363,7 +363,14 @@
           </div>
           <div>
             <button mat-button matStepperPrevious>Back</button>
-            <button mat-button (click)="save()">Submit</button>
+            <button
+              mat-flat-button
+              color="primary"
+              [disabled]="validateOrderDetails()"
+              (click)="openDialog()"
+            >
+              Submit
+            </button>
           </div>
         </form>
       </mat-step>

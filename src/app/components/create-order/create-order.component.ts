@@ -12,6 +12,8 @@ import { DatePipe } from '@angular/common';
 import { OrdersService } from 'src/app/services/orders.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { OrderDetailsDialogComponent } from './order-details-dialog/order-details-dialog.component';
 
 @Component({
   selector: 'app-create-order',
@@ -19,6 +21,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./create-order.component.scss'],
 })
 export class CreateOrderComponent implements OnInit {
+  orderObject: any = {};
   firstFormGroup: FormGroup = new FormGroup({});
   secondFormGroup: FormGroup = new FormGroup({});
   thirdFormGroup: FormGroup = new FormGroup({});
@@ -55,11 +58,33 @@ export class CreateOrderComponent implements OnInit {
     private datepipe: DatePipe,
     private orderService: OrdersService,
     private _snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.initializeFormGroups();
+  }
+  openDialog() {
+    this.orderObject = Object.assign(
+      this.firstFormGroup.value,
+      this.secondFormGroup.value,
+      this.thirdFormGroup.value
+    );
+    this.orderObject.invoiceDate = this.datepipe.transform(
+      this.orderObject.invoiceDate,
+      'yyyy-MM-dd'
+    );
+    const dialogRef = this.dialog.open(OrderDetailsDialogComponent, {
+      data: this.orderObject,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+      if (result) {
+        console.log('order saved');
+        this.save();
+      }
+    });
   }
 
   private initializeFormGroups() {
@@ -97,9 +122,9 @@ export class CreateOrderComponent implements OnInit {
     });
     this.thirdFormGroup = this._formBuilder.group({
       tradeDiscount: [false],
-      tradeDiscountValue: ['', Validators.required],
+      tradeDiscountValue: [''],
       cashDiscount: [false],
-      cashDiscountValue: ['', Validators.required],
+      cashDiscountValue: [''],
       orderScope: ['', Validators.required],
     });
   }
@@ -122,18 +147,9 @@ export class CreateOrderComponent implements OnInit {
     console.log(this.firstFormGroup.value);
   }
   save() {
-    var finalObj = Object.assign(
-      this.firstFormGroup.value,
-      this.secondFormGroup.value,
-      this.thirdFormGroup.value
-    );
-    finalObj.invoiceDate = this.datepipe.transform(
-      finalObj.invoiceDate,
-      'yyyy-MM-dd'
-    );
-    console.log(finalObj);
+    console.log(this.orderObject);
     this.isLoading = true;
-    this.orderService.addOrderDetails(finalObj).subscribe({
+    this.orderService.addOrderDetails(this.orderObject).subscribe({
       next: (result: any) => {
         this._snackBar.open(result.data, 'Dismiss', {
           duration: 3000,
@@ -216,5 +232,16 @@ export class CreateOrderComponent implements OnInit {
   }
   formatLabel(value: number) {
     return value + '%';
+  }
+  validateOrderDetails(): boolean {
+    // if (
+    //   !(
+    //     this.firstFormGroup.valid &&
+    //     this.secondFormGroup.valid &&
+    //     this.thirdFormGroup.valid
+    //   )
+    // )
+    //   return true;
+    return false;
   }
 }
