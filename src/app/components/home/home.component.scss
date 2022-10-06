@@ -9,10 +9,11 @@ mat-sidenav-content {
 
   .main {
     background-color: #dee5ec;
-    padding: 20px 0 0 20px;
+    padding: 20px 20px 20px 20px;
     // margin: 30px 30px 30px 30px;
     // margin-top: 30px;
-    height: 100vh;
+    height: 100%;
+    min-height: calc(100vh - 105px);
   }
 }
 
@@ -23,7 +24,27 @@ mat-toolbar {
     color: gray;
   }
   justify-content: space-between;
-  .box {
+  .box2 {
     margin-top: 15px;
   }
+  .box1 {
+    mat-icon {
+      margin-top: 15px;
+      margin-left: 10px;
+    }
+    .title {
+      color: gray;
+      font-family: fantasy;
+      font-size: 2rem;
+      text-shadow: 1px 1px 3px;
+      letter-spacing: 2px;
+      text-decoration: none;
+    }
+  }
+}
+
+.toolbar {
+  position: sticky;
+  top: 0px;
+  z-index: 10000;
 }

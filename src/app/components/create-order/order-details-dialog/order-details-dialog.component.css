@@ -1,0 +1,8 @@
+.dialog-main-row {
+  padding: 10px;
+  line-height: 4px;
+  width: 30vh;
+}
+::ng-deep .mat-dialog-content {
+  overflow: unset;
+}

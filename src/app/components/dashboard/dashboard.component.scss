@@ -1,0 +1,66 @@
+table {
+  width: 100%;
+}
+th {
+  font-size: 12px;
+  font-weight: bolder;
+  background-color: #dee5ec;
+}
+
+.container {
+  max-height: 85vh;
+  max-width: 100%;
+  overflow: auto;
+}
+
+.mat-column-salesPersonName,
+.mat-column-invoiceDate,
+.mat-column-companyName {
+  min-width: 110px;
+  padding-right: 15px;
+}
+.mat-column-orderId {
+  min-width: 68px;
+}
+
+::ng-deep .mat-progress-bar-fill::after {
+  background-color: #0f172b;
+}
+
+.content {
+  height: calc(100vh - 120px);
+  overflow: auto;
+}
+.spinner-item {
+  display: grid;
+  padding-left: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: white;
+  ::ng-deep .mat-progress-spinner circle,
+  .mat-spinner circle {
+    stroke: #0f172b;
+  }
+}
+
+::ng-deep snack-bar-container.error-snackbar {
+  background-color: #0f172b;
+  font-weight: bold;
+  .mat-button,
+  .mat-icon-button,
+  .mat-stroked-button {
+    color: #911f1f;
+    font-size: 15px;
+    font-weight: bold;
+  }
+}
+::ng-deep snack-bar-container.good-snackbar {
+  background-color: #0f172b;
+  font-weight: bold;
+  .mat-button,
+  .mat-icon-button,
+  .mat-stroked-button {
+    font-size: 15px;
+    font-weight: bold;
+  }
+}
