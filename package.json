@@ -7,7 +7,8 @@
     "build": "ng build",
     "heroku-postbuild": "ng build && npm install -g http-server-spa",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "build:prod": "ng build --configuration production"
   },
   "private": true,
   "dependencies": {

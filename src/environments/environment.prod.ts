@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://icc-services-stage.herokuapp.com/',
+  baseUrl: 'http://iccservicesdev.us-east-1.elasticbeanstalk.com/',
 };
