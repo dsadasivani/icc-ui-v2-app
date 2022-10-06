@@ -3,10 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "http-server-spa dist/icc-ui-v2 index.html $PORT",
     "build": "ng build",
+    "heroku-postbuild": "ng build && npm install -g http-server-spa",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "build:prod": "ng build --configuration production"
   },
   "private": true,
   "dependencies": {
@@ -15,11 +17,13 @@
     "@angular/common": "^14.1.0",
     "@angular/compiler": "^14.1.0",
     "@angular/core": "^14.1.0",
+    "@angular/flex-layout": "^14.0.0-beta.40",
     "@angular/forms": "^14.1.0",
     "@angular/material": "^14.1.0",
     "@angular/platform-browser": "^14.1.0",
     "@angular/platform-browser-dynamic": "^14.1.0",
     "@angular/router": "^14.1.0",
+    "@ngneat/until-destroy": "^9.2.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

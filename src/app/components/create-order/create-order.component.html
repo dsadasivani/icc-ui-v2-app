@@ -1,45 +1,384 @@
-<mat-stepper orientation="vertical" #stepper>
-  <mat-step [stepControl]="firstFormGroup">
-    <form [formGroup]="firstFormGroup">
-      <ng-template matStepLabel>Consignee address details</ng-template>
-      <mat-form-field appearance="fill">
-        <mat-label>Name</mat-label>
-        <input
-          matInput
-          placeholder="Last name, First name"
-          formControlName="firstCtrl"
-          required
-        />
-      </mat-form-field>
-      <div>
-        <button mat-button matStepperNext>Next</button>
-      </div>
-    </form>
-  </mat-step>
-  <mat-step [stepControl]="secondFormGroup">
-    <form [formGroup]="secondFormGroup">
-      <ng-template matStepLabel>Fill out your address</ng-template>
-      <mat-form-field appearance="fill">
-        <mat-label>Address</mat-label>
-        <input
-          matInput
-          formControlName="secondCtrl"
-          placeholder="Ex. 1 Main St, New York, NY"
-          required
-        />
-      </mat-form-field>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
-      </div>
-    </form>
-  </mat-step>
-  <mat-step>
-    <ng-template matStepLabel>Done</ng-template>
-    <p>You are now done.</p>
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
-    </div>
-  </mat-step>
-</mat-stepper>
+<div
+  class="content-flex mat-elevation-z4"
+  fxLayout="row wrap"
+  fxLayoutGap="grid"
+>
+  <ng-container *ngIf="isLoading">
+    <div class="overlay"></div>
+    <mat-progress-spinner
+      *ngIf="isLoading"
+      [mode]="'indeterminate'"
+    ></mat-progress-spinner
+  ></ng-container>
+  <mat-card fxFlex="60%" fxFlex.xs="100%" fxFlex.sm="100%">
+    <mat-stepper orientation="vertical" #stepper>
+      <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup">
+          <ng-template matStepLabel>Consignee Address Details</ng-template>
+          <mat-form-field appearance="outline">
+            <mat-label>Company Name</mat-label>
+            <input
+              matInput
+              placeholder="Consignee Company Name"
+              formControlName="companyName"
+              required
+            /> </mat-form-field
+          ><br />
+          <mat-form-field appearance="outline">
+            <mat-label>Address</mat-label>
+            <textarea
+              matInput
+              placeholder="Stree Name, State.."
+              formControlName="address"
+              required
+            ></textarea></mat-form-field
+          ><br />
+          <mat-form-field appearance="outline">
+            <mat-label>Address 2</mat-label>
+            <textarea
+              matInput
+              placeholder="District, Landmark..."
+              formControlName="address2"
+            ></textarea></mat-form-field
+          ><br />
+          <div class="semi-fields">
+            <mat-form-field appearance="outline">
+              <mat-label>GSTIN Number</mat-label>
+              <input matInput formControlName="gstin" required />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Phone Number</mat-label>
+              <input matInput formControlName="phoneNumber" required />
+              <mat-icon matSuffix>phone</mat-icon>
+              <mat-hint>Include area code</mat-hint>
+            </mat-form-field>
+          </div>
+          <div>
+            <button mat-button matStepperNext (click)="fun1($event)">
+              Next
+            </button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="secondFormGroup">
+        <form [formGroup]="secondFormGroup">
+          <ng-template matStepLabel>Order Details</ng-template>
+          <mat-form-field appearance="outline">
+            <mat-label>Sales Person Name</mat-label>
+            <input
+              matInput
+              placeholder="First Name, Last Name"
+              formControlName="salesPersonName"
+              required
+            /> </mat-form-field
+          ><br />
+          <div class="semi-fields">
+            <mat-form-field appearance="outline">
+              <mat-label>Sent Via</mat-label>
+              <mat-select formControlName="transport">
+                <mat-option
+                  *ngFor="let selectedTransport of transportOptions"
+                  [value]="selectedTransport.name"
+                >
+                  {{ selectedTransport.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field
+              *ngIf="secondFormGroup.get('transport')?.value === 'OTHERS'"
+              appearance="outline"
+            >
+              <input
+                matInput
+                placeholder="Enter here.."
+                formControlName="transportOther"
+                required
+              />
+            </mat-form-field>
+          </div>
+          <mat-form-field appearance="outline">
+            <mat-label>FOB Point</mat-label>
+            <input matInput formControlName="fobPoint" required />
+            <mat-hint>Free On Board</mat-hint> </mat-form-field
+          ><br />
+          <div class="semi-fields">
+            <mat-form-field appearance="outline">
+              <mat-label>Invoice Number</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="invoiceNumber"
+                required
+              />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Invoice Date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                formControlName="invoiceDate"
+              />
+              <mat-hint *ngIf="!invoiceDate?.touched || !invoiceDate?.invalid"
+                >MM/DD/YYYY</mat-hint
+              >
+              <mat-error *ngIf="invoiceDate?.invalid">
+                <strong>MM/DD/YYYY</strong> format is accepted
+              </mat-error>
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="semi-fields">
+            <mat-form-field appearance="outline">
+              <mat-label>Monetary Terms</mat-label>
+              <mat-select formControlName="terms">
+                <mat-option
+                  *ngFor="let selectedTerm of termsOptions"
+                  [value]="selectedTerm.name"
+                >
+                  {{ selectedTerm.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field
+              *ngIf="secondFormGroup.get('terms')?.value === 'Credit'"
+              appearance="outline"
+            >
+              <mat-label>Due Date</mat-label>
+              <mat-select formControlName="dueDate">
+                <mat-option
+                  *ngFor="let selectedCredit of creditOptions"
+                  [value]="selectedCredit.value"
+                >
+                  {{ selectedCredit.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- <br /> -->
+          <!-- <div class="semi-fields"> -->
+          <mat-form-field appearance="outline">
+            <mat-label>Products</mat-label>
+
+            <mat-select
+              multiple
+              [formControl]="productsControl"
+              (valueChange)="changeValue($event)"
+            >
+              <mat-select-trigger>
+                <mat-chip-list>
+                  <mat-chip
+                    *ngFor="let product of productsControl.value"
+                    [removable]="true"
+                    (removed)="onProductRemoved(product.name)"
+                    color="primary"
+                    selected
+                  >
+                    {{ product.value }}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+                </mat-chip-list>
+              </mat-select-trigger>
+              <mat-option
+                *ngFor="let product of productOptions"
+                [value]="product"
+                (valueChange)="changeValue($event)"
+                >{{ product.value }}</mat-option
+              >
+              <!-- <mat-option>{{productOptions.length}}</mat-option> -->
+            </mat-select>
+          </mat-form-field>
+          <div
+            class="input-row"
+            *ngIf="showProductInputFields('product1')"
+            formGroupName="product1"
+          >
+            <b>LEAKSEAL - 1 Ltr x 20 Btls</b>
+            <mat-form-field appearance="fill">
+              <mat-label>Quantity</mat-label>
+              <input
+                formControlName="quantity"
+                matInput
+                type="number"
+                required
+              />
+            </mat-form-field>
+            <mat-form-field appearance="fill" floatLabel="always">
+              <mat-label>Amount</mat-label>
+              <input
+                formControlName="unitPrice"
+                matInput
+                type="number"
+                class="example-right-align"
+                placeholder="0"
+              />
+              <span matPrefix>₹&nbsp;</span>
+              <span matSuffix>.00</span>
+            </mat-form-field>
+          </div>
+          <div
+            formGroupName="product2"
+            class="input-row"
+            *ngIf="showProductInputFields('product2')"
+          >
+            <b>LEAKSEAL - 5 Ltr x 4 Jars</b>
+            <mat-form-field appearance="fill">
+              <mat-label>Quantity</mat-label>
+              <input
+                formControlName="quantity"
+                matInput
+                type="number"
+                required
+              />
+            </mat-form-field>
+            <mat-form-field appearance="fill" floatLabel="always">
+              <mat-label>Amount</mat-label>
+              <input
+                formControlName="unitPrice"
+                matInput
+                type="number"
+                class="example-right-align"
+                placeholder="0"
+              />
+              <span matPrefix>₹&nbsp;</span>
+              <span matSuffix>.00</span>
+            </mat-form-field>
+          </div>
+          <div
+            formGroupName="product3"
+            class="input-row"
+            *ngIf="showProductInputFields('product3')"
+          >
+            <b>LEAKSEAL - 100 Ml x 100 Pkts</b>
+            <mat-form-field appearance="fill">
+              <mat-label>Quantity</mat-label>
+              <input
+                formControlName="quantity"
+                matInput
+                type="number"
+                required
+              />
+            </mat-form-field>
+            <mat-form-field appearance="fill" floatLabel="always">
+              <mat-label>Amount</mat-label>
+              <input
+                formControlName="unitPrice"
+                matInput
+                type="number"
+                class="example-right-align"
+                placeholder="0"
+              />
+              <span matPrefix>₹&nbsp;</span>
+              <span matSuffix>.00</span>
+            </mat-form-field>
+          </div>
+          <!-- </div> -->
+          <!-- <mat-chip-list aria-label="Products" multiple>
+            <mat-chip value="product1">1 ltr Bottles</mat-chip>
+            <mat-chip value="product2">5 ltrs Jar</mat-chip>
+            <mat-chip value="product3">100 ml pouches</mat-chip>
+          </mat-chip-list> -->
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Discounts & Tax</ng-template>
+
+        <form [formGroup]="thirdFormGroup">
+          <div class="content-flex" fxLayout="row wrap" fxLayoutGap="grid">
+            <div
+              class="discount"
+              fxFlex="50%"
+              fxFlex.xs="100%"
+              fxFlex.sm="100%"
+            >
+              <mat-checkbox formControlName="tradeDiscount"
+                >Trade Discount</mat-checkbox
+              >&nbsp;
+              <mat-slider
+                formControlName="tradeDiscountValue"
+                thumbLabel
+                [displayWith]="formatLabel"
+                tickInterval="10"
+                step="1"
+                min="0"
+                max="50"
+                aria-labelledby="example-name-label"
+                [(value)]="tradeDiscountPercentage"
+                [disabled]="!tradeDiscountChecked"
+              ></mat-slider
+              ><label class="example-value-label"
+                ><strong>{{ tradeDiscountPercentage }}</strong></label
+              >
+            </div>
+            <div
+              class="discount"
+              fxFlex="50%"
+              fxFlex.xs="100%"
+              fxFlex.sm="100%"
+            >
+              <mat-checkbox formControlName="cashDiscount"
+                >Cash Discount</mat-checkbox
+              >&nbsp;&nbsp;
+              <mat-slider
+                formControlName="cashDiscountValue"
+                thumbLabel
+                [displayWith]="formatLabel"
+                tickInterval="10"
+                step="1"
+                min="0"
+                max="50"
+                aria-labelledby="example-name-label"
+                [(value)]="cashDiscountPercentage"
+                [disabled]="!cashDiscountChecked"
+              ></mat-slider
+              ><label class="example-value-label"
+                ><strong>{{ cashDiscountPercentage }}</strong></label
+              >
+            </div>
+            <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="100%">
+              <div class="special-fields">
+                <mat-form-field appearance="outline">
+                  <mat-label>Order Scope</mat-label>
+                  <mat-select formControlName="orderScope">
+                    <mat-option
+                      *ngFor="let selectedScope of orderScopeOptions"
+                      [value]="selectedScope.name"
+                    >
+                      {{ selectedScope.value }}
+                    </mat-option> </mat-select
+                  ><mat-error *ngIf="orderScope?.invalid">
+                    Please select <strong>IGST</strong> or
+                    <strong>(CGST + SGST)</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button
+              mat-flat-button
+              color="primary"
+              [disabled]="validateOrderDetails()"
+              (click)="openDialog()"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </mat-step>
+    </mat-stepper>
+  </mat-card>
+  <mat-card fxFlex="40%" fxFlex.xs="100%" fxFlex.sm="100%">
+    <!-- {{ firstFormGroup.valueChanges | async | json }} <br />
+    {{ secondFormGroup.valueChanges | async | json }} <br />
+    {{ thirdFormGroup.valueChanges | async | json }} -->
+  </mat-card>
+</div>
