@@ -39,3 +39,12 @@ jobs:
       - name: Deploy
         if: success()
         run: aws s3 sync ./dist/icc-ui-v2 s3://www.indoconstructionchemicals.co.in
+
+      - name: Invalidate CloudFront
+        uses: chetan/invalidate-cloudfront-action@v2
+        env:
+          DISTRIBUTION: ${{ secrets.DISTRIBUTION_ID }}
+          PATHS: "/*"
+          AWS_REGION: "us-east-1"
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
