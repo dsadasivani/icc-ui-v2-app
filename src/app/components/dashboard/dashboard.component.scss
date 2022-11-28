@@ -64,3 +64,22 @@ th {
     font-weight: bold;
   }
 }
+mat-icon {
+  text-align: center;
+  width: 100%;
+  padding: 1px 0px 1px 0px;
+}
+mat-icon:hover {
+  background-color: #dee5ec;
+  border-radius: 9px;
+  text-shadow: 1px 1px 1px;
+}
+.edit_color {
+  color: #283593;
+}
+.download_color {
+  color: #9b0f0f;
+}
+.action_heading {
+  text-align: center;
+}
