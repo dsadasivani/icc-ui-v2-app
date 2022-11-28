@@ -26,6 +26,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     'salesPersonName',
     'invoiceDate',
     'companyName',
+    'editOrder',
+    'downloadOrder',
   ];
   loadingMessage: string = '';
   isLoading: boolean = true;
