@@ -129,8 +129,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   downloadInvoice(orderId: number) {
     const fileName = `Invoice_${orderId}.pdf`;
-    this.fileService.getFileContent(orderId).subscribe((result) => {
-      FileSaver.saveAs(this.createFileURL(result), fileName);
+    this.fileService.getFileContent(orderId).subscribe({
+      next: (result) => {
+        FileSaver.saveAs(this.createFileURL(result), fileName);
+      },
+      error: (error) => {
+        console.log(error);
+        this._snackBar.open('Error while downloading Invoice !', 'Dismiss', {
+          panelClass: 'error-snackbar',
+        });
+      },
     });
   }
 }
