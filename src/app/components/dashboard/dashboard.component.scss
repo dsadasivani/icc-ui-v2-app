@@ -68,9 +68,11 @@ mat-icon {
   text-align: center;
   width: 100%;
   padding: 1px 0px 1px 0px;
+  margin-left: 10px;
+  font-size: 28px;
 }
 mat-icon:hover {
-  background-color: #dee5ec;
+  background-color: #c0d0e0;
   border-radius: 9px;
   text-shadow: 1px 1px 1px;
 }
@@ -80,6 +82,12 @@ mat-icon:hover {
 .download_color {
   color: #9b0f0f;
 }
-.action_heading {
-  text-align: center;
+.mat-table-sticky {
+  border-left: 1px solid #e0e0e0;
+}
+td.mat-column-orderActions {
+  max-width: 51px;
+  min-width: 20px;
+  padding-right: 8px;
+  background-color: #dee5ec;
 }
