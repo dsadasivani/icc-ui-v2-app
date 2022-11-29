@@ -14,6 +14,8 @@ import { OrdersService } from 'src/app/services/orders.service';
 import { map, pairwise, filter, throttleTime } from 'rxjs/operators';
 import { timer } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FileUtilsService } from 'src/app/services/file-utils.service';
+import { FileSaverService } from 'ngx-filesaver';
 
 @Component({
   selector: 'app-dashboard',
@@ -44,11 +46,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   noOfRecords: number = 50;
   offset: number = 0;
   fullDataLoaded: boolean = false;
+  public fileName: string | undefined;
 
   constructor(
     private orderService: OrdersService,
+    private fileService: FileUtilsService,
     private ngZone: NgZone,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private _FileSaverService: FileSaverService
   ) {}
 
   ngOnInit(): void {
@@ -114,5 +119,21 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         panelClass: 'good-snackbar',
       });
     }
+  }
+
+  createFileURL(result: Blob, type: string): Blob {
+    var newBlob = new Blob([result], { type: type });
+    return newBlob;
+  }
+
+  downloadInvoice(orderId: number) {
+    const fileName = `Invoice_${orderId}.pdf`;
+    const fileType = this._FileSaverService.genType(fileName);
+    this.fileService.getFileContent(orderId).subscribe((result) => {
+      this._FileSaverService.save(
+        this.createFileURL(result, fileType),
+        fileName
+      );
+    });
   }
 }
