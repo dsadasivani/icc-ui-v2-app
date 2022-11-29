@@ -13,9 +13,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": [
-              "file-saver"
-            ],
             "outputPath": "dist/icc-ui-v2",
             "index": "src/index.html",
             "main": "src/main.ts",
