@@ -1,82 +1,102 @@
-<h1 mat-dialog-title>Price Calculations</h1>
+<h1 mat-dialog-title class="heading">Price Calculations</h1>
 <mat-dialog-content class="mat-typography">
   <!-- {{ data | json }} -->
   <div>
     <mat-list role="list">
-      <mat-list-item role="listitem"
+      <mat-list-item
+        class="content"
+        role="listitem"
+        *ngIf="data.product1.productSelected"
         ><div class="dialog-main-row">
           <p>LEAKSEAL - 1 ltr</p>
           <small class="text-muted"
             >{{ data.product1.quantity }} cartons with unit price -
             {{
-              data.product1.unitPrice | currency: "INR":"symbol":"1.0-0"
+              data.product1.unitPrice | currency : "INR" : "symbol" : "1.0-0"
             }}</small
           >
         </div>
         <div>
-          <span class="text-muted">{{
+          <span class="monetory-value">{{
             data.product1.quantity * data.product1.unitPrice
-              | currency: "INR":"symbol":"1.0-0"
+              | currency : "INR" : "symbol" : "1.0-0"
           }}</span>
         </div></mat-list-item
       >
-      <mat-list-item role="listitem"
+      <mat-list-item
+        class="content"
+        role="listitem"
+        *ngIf="data.product2.productSelected"
         ><div class="dialog-main-row">
           <p>LEAKSEAL - 5 ltr</p>
           <small class="text-muted"
             >{{ data.product2.quantity }} cartons with unit price -
             {{
-              data.product2.unitPrice | currency: "INR":"symbol":"1.0-0"
+              data.product2.unitPrice | currency : "INR" : "symbol" : "1.0-0"
             }}</small
           >
         </div>
         <div>
-          <span class="text-muted">{{
+          <span class="monetory-value">{{
             data.product2.quantity * data.product2.unitPrice
-              | currency: "INR":"symbol":"1.0-0"
+              | currency : "INR" : "symbol" : "1.0-0"
           }}</span>
         </div></mat-list-item
       >
-      <mat-list-item role="listitem"
+      <mat-list-item
+        class="content"
+        role="listitem"
+        *ngIf="data.product3.productSelected"
         ><div class="dialog-main-row">
           <p>LEAKSEAL - 100 ml</p>
           <small class="text-muted"
             >{{ data.product3.quantity }} cartons with unit price -
             {{
-              data.product3.unitPrice | currency: "INR":"symbol":"1.0-0"
+              data.product3.unitPrice | currency : "INR" : "symbol" : "1.0-0"
             }}</small
           >
         </div>
         <div>
-          <span class="text-muted">{{
+          <span class="monetory-value">{{
             data.product3.quantity * data.product3.unitPrice
-              | currency: "INR":"symbol":"1.0-0"
+              | currency : "INR" : "symbol" : "1.0-0"
           }}</span>
         </div></mat-list-item
       >
-      <mat-list-item role="listitem"
+      <mat-list-item class="content" role="listitem" *ngIf="data.tradeDiscount"
         ><div class="dialog-main-row">
-          <p>Trade Discount({{ data.tradeDiscountValue }}%)</p>
+          <p>Trade Discount</p>
+          <small class="text-muted"
+            >{{ data.tradeDiscountValue }}% on amount -
+            {{
+              getProductsAbsoluteValue() | currency : "INR" : "symbol" : "1.0-0"
+            }}</small
+          >
         </div>
         <div>
-          <span class="text-muted">{{
-            data.product3.quantity * data.tradeDiscountValue
-              | currency: "INR":"symbol":"1.0-0"
+          <span class="monetory-value">{{
+            getDiscount("TRADE") | currency : "INR" : "symbol" : "1.0-0"
           }}</span>
         </div></mat-list-item
       >
-      <mat-list-item role="listitem"
+      <mat-list-item class="content" role="listitem" *ngIf="data.cashDiscount"
         ><div class="dialog-main-row">
-          <p>Cash Discount({{ data.cashDiscountValue }}%)</p>
+          <p>Cash Discount</p>
+          <small class="text-muted"
+            >{{ data.cashDiscountValue }}% on amount -
+            {{
+              getProductsAbsoluteValue() - getDiscount("TRADE")
+                | currency : "INR" : "symbol" : "1.0-0"
+            }}</small
+          >
         </div>
         <div>
-          <span class="text-muted">{{
-            data.product3.quantity * data.cashDiscountValue
-              | currency: "INR":"symbol":"1.0-0"
+          <span class="monetory-value">{{
+            getDiscount("CASH") | currency : "INR" : "symbol" : "1.0-0"
           }}</span>
         </div></mat-list-item
       >
-      <mat-list-item role="listitem"
+      <mat-list-item class="content" role="listitem"
         ><div class="dialog-main-row">
           <p>GST</p>
           <small *ngIf="data.orderScope == 'state'" class="text-muted"
@@ -87,9 +107,18 @@
           >
         </div>
         <div>
-          <span class="text-muted">{{
-            data.product3.quantity * data.product3.unitPrice
-              | currency: "INR":"symbol":"1.0-0"
+          <span class="monetory-value">{{
+            getTaxValue() | currency : "INR" : "symbol" : "1.0-0"
+          }}</span>
+        </div></mat-list-item
+      >
+      <mat-list-item class="content" role="listitem" class="total-row"
+        ><div class="dialog-main-row total-amount">
+          <p><b>Total Amount</b></p>
+        </div>
+        <div>
+          <span class="total-value">{{
+            getTotalAmount() | currency : "INR" : "symbol-narrow"
           }}</span>
         </div></mat-list-item
       >
