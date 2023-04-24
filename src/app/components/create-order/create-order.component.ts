@@ -98,26 +98,26 @@ export class CreateOrderComponent implements OnInit {
     this.secondFormGroup = this._formBuilder.group({
       salesPersonName: ['', Validators.required],
       transport: ['', Validators.required],
-      otherTransport: ['', Validators.required],
+      otherTransport: [''],
       fobPoint: ['', Validators.required],
       invoiceNumber: ['', Validators.required],
       invoiceDate: new FormControl('', Validators.required),
       terms: ['', Validators.required],
-      dueDate: ['', Validators.required],
+      dueDate: [''],
       product1: new FormGroup({
         productSelected: new FormControl(false),
-        quantity: new FormControl('', Validators.required),
-        unitPrice: new FormControl('', Validators.required),
+        quantity: new FormControl(''),
+        unitPrice: new FormControl(''),
       }),
       product2: new FormGroup({
         productSelected: new FormControl(false),
-        quantity: new FormControl('', Validators.required),
-        unitPrice: new FormControl('', Validators.required),
+        quantity: new FormControl(''),
+        unitPrice: new FormControl(''),
       }),
       product3: new FormGroup({
         productSelected: new FormControl(false),
-        quantity: new FormControl('', Validators.required),
-        unitPrice: new FormControl('', Validators.required),
+        quantity: new FormControl(''),
+        unitPrice: new FormControl(''),
       }),
     });
     this.thirdFormGroup = this._formBuilder.group({
@@ -144,7 +144,17 @@ export class CreateOrderComponent implements OnInit {
   }
   fun1(_event: any) {
     console.log(_event);
-    console.log(this.firstFormGroup.value);
+    console.log(this.firstFormGroup.status);
+  }
+  fun2(_event: any) {
+    console.log('Product - ', this.productsControl.status);
+    if (this.productsControl.status === 'INVALID') {
+      this.secondFormGroup.setErrors({ customError: true });
+    } else {
+      this.secondFormGroup.setErrors(null);
+    }
+    console.log(_event);
+    console.log(this.secondFormGroup.status);
   }
   save() {
     console.log(this.orderObject);
@@ -208,6 +218,11 @@ export class CreateOrderComponent implements OnInit {
     if (!productSelected) {
       this.secondFormGroup.get(product + '.quantity')?.setValue(0);
       this.secondFormGroup.get(product + '.unitPrice')?.setValue(0);
+      this.removeValidation(this.secondFormGroup, product + '.quantity');
+      this.removeValidation(this.secondFormGroup, product + '.unitPrice');
+    } else {
+      this.updateValidation(this.secondFormGroup, product + '.quantity');
+      this.updateValidation(this.secondFormGroup, product + '.unitPrice');
     }
   }
   resetPage() {
@@ -243,5 +258,29 @@ export class CreateOrderComponent implements OnInit {
     // )
     //   return true;
     return false;
+  }
+  onTransportSelected(event: any) {
+    console.log(event.value);
+    if (event.value === 'OTHERS') {
+      this.updateValidation(this.secondFormGroup, 'otherTransport');
+    } else {
+      this.removeValidation(this.secondFormGroup, 'otherTransport');
+    }
+  }
+  onTermsSelected(event: any) {
+    if (event.value === 'Credit') {
+      this.updateValidation(this.secondFormGroup, 'dueDate');
+    } else {
+      this.removeValidation(this.secondFormGroup, 'dueDate');
+    }
+  }
+  updateValidation(formGroup: FormGroup<any>, formControlName: string) {
+    formGroup.get(formControlName)?.setValidators([Validators.required]);
+    formGroup.get(formControlName)?.updateValueAndValidity();
+  }
+  removeValidation(formGroup: FormGroup<any>, formControlName: string) {
+    formGroup.get(formControlName)?.setValue('');
+    formGroup.get(formControlName)?.clearValidators();
+    formGroup.get(formControlName)?.updateValueAndValidity();
   }
 }
