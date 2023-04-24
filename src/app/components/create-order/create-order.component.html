@@ -11,7 +11,7 @@
     ></mat-progress-spinner
   ></ng-container>
   <mat-card fxFlex="60%" fxFlex.xs="100%" fxFlex.sm="100%">
-    <mat-stepper orientation="vertical" #stepper>
+    <mat-stepper orientation="vertical" linear="true">
       <mat-step [stepControl]="firstFormGroup">
         <form [formGroup]="firstFormGroup">
           <ng-template matStepLabel>Consignee Address Details</ng-template>
@@ -75,7 +75,10 @@
           <div class="semi-fields">
             <mat-form-field appearance="outline">
               <mat-label>Sent Via</mat-label>
-              <mat-select formControlName="transport">
+              <mat-select
+                formControlName="transport"
+                (selectionChange)="onTransportSelected($event)"
+              >
                 <mat-option
                   *ngFor="let selectedTransport of transportOptions"
                   [value]="selectedTransport.name"
@@ -91,7 +94,7 @@
               <input
                 matInput
                 placeholder="Enter here.."
-                formControlName="transportOther"
+                formControlName="otherTransport"
                 required
               />
             </mat-form-field>
@@ -117,12 +120,14 @@
                 matInput
                 [matDatepicker]="picker"
                 formControlName="invoiceDate"
+                (focus)="picker.open()"
+                readonly="true"
               />
               <mat-hint *ngIf="!invoiceDate?.touched || !invoiceDate?.invalid"
                 >MM/DD/YYYY</mat-hint
               >
-              <mat-error *ngIf="invoiceDate?.invalid">
-                <strong>MM/DD/YYYY</strong> format is accepted
+              <mat-error *ngIf="invoiceDate?.touched && invoiceDate?.invalid">
+                select date from calender
               </mat-error>
               <mat-datepicker-toggle
                 matSuffix
@@ -134,7 +139,10 @@
           <div class="semi-fields">
             <mat-form-field appearance="outline">
               <mat-label>Monetary Terms</mat-label>
-              <mat-select formControlName="terms">
+              <mat-select
+                formControlName="terms"
+                (selectionChange)="onTermsSelected($event)"
+              >
                 <mat-option
                   *ngFor="let selectedTerm of termsOptions"
                   [value]="selectedTerm.name"
@@ -167,6 +175,7 @@
               multiple
               [formControl]="productsControl"
               (valueChange)="changeValue($event)"
+              required
             >
               <mat-select-trigger>
                 <mat-chip-list>
@@ -190,6 +199,10 @@
               >
               <!-- <mat-option>{{productOptions.length}}</mat-option> -->
             </mat-select>
+            <mat-error
+              *ngIf="productsControl?.touched && productsControl?.invalid"
+              >Please select atleast one product</mat-error
+            >
           </mat-form-field>
           <div
             class="input-row"
@@ -283,14 +296,20 @@
           </mat-chip-list> -->
           <div>
             <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
+            <button
+              mat-button
+              matStepperNext
+              (click)="fun2($event)"
+              [disabled]="secondFormGroup.invalid || productsControl.invalid"
+            >
+              Next
+            </button>
           </div>
         </form>
       </mat-step>
-      <mat-step>
-        <ng-template matStepLabel>Discounts & Tax</ng-template>
-
+      <mat-step [stepControl]="thirdFormGroup">
         <form [formGroup]="thirdFormGroup">
+          <ng-template matStepLabel>Discounts & Tax</ng-template>
           <div class="content-flex" fxLayout="row wrap" fxLayoutGap="grid">
             <div
               class="discount"
@@ -353,7 +372,9 @@
                     >
                       {{ selectedScope.value }}
                     </mat-option> </mat-select
-                  ><mat-error *ngIf="orderScope?.invalid">
+                  ><mat-error
+                    *ngIf="orderScope?.touched && orderScope?.invalid"
+                  >
                     Please select <strong>IGST</strong> or
                     <strong>(CGST + SGST)</strong>
                   </mat-error>
@@ -366,7 +387,7 @@
             <button
               mat-flat-button
               color="primary"
-              [disabled]="validateOrderDetails()"
+              [disabled]="thirdFormGroup.invalid"
               (click)="openDialog()"
             >
               Submit

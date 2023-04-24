@@ -2,7 +2,37 @@
   padding: 10px;
   line-height: 4px;
   width: 30vh;
+  border-left: 3px solid #203867;
+}
+.total-amount {
+  margin-top: 10px;
+  font-size: 17px;
+  border-left: none !important;
 }
 ::ng-deep .mat-dialog-content {
   overflow: unset;
+}
+.total-value {
+  font-size: 20px;
+  font-weight: bold;
+}
+.total-row {
+  background-color: #c7cbd4;
+  border-radius: 1em;
+}
+.monetory-value {
+  background-color: #c7cbd4;
+  padding: 2px 10px;
+  border-radius: 1em;
+}
+.heading {
+  font-weight: lighter;
+}
+.text-muted {
+  font-weight: lighter;
+  font-size: 70%;
+  line-height: 1em;
+}
+.content {
+  margin: 1em 0px;
 }
