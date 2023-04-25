@@ -4,6 +4,18 @@
   width: 30vh;
   border-left: 3px solid #203867;
 }
+.discount-bar {
+  border-left: 3px solid forestgreen !important;
+}
+.tax-bar {
+  border-left: 3px solid #ff0916 !important;
+}
+.discount {
+  color: forestgreen;
+}
+.tax {
+  color: red;
+}
 .total-amount {
   margin-top: 10px;
   font-size: 17px;
