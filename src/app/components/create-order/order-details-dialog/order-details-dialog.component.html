@@ -63,8 +63,11 @@
           }}</span>
         </div></mat-list-item
       >
-      <mat-list-item class="content" role="listitem" *ngIf="data.tradeDiscount"
-        ><div class="dialog-main-row">
+      <mat-list-item
+        class="content discount"
+        role="listitem"
+        *ngIf="data.tradeDiscount"
+        ><div class="dialog-main-row discount-bar">
           <p>Trade Discount</p>
           <small class="text-muted"
             >{{ data.tradeDiscountValue }}% on amount -
@@ -79,8 +82,11 @@
           }}</span>
         </div></mat-list-item
       >
-      <mat-list-item class="content" role="listitem" *ngIf="data.cashDiscount"
-        ><div class="dialog-main-row">
+      <mat-list-item
+        class="content discount"
+        role="listitem"
+        *ngIf="data.cashDiscount"
+        ><div class="dialog-main-row discount-bar">
           <p>Cash Discount</p>
           <small class="text-muted"
             >{{ data.cashDiscountValue }}% on amount -
@@ -96,8 +102,11 @@
           }}</span>
         </div></mat-list-item
       >
-      <mat-list-item class="content" role="listitem"
-        ><div class="dialog-main-row">
+      <mat-list-item
+        class="content tax"
+        role="listitem"
+        *ngIf="data.orderScope != 'offline'"
+        ><div class="dialog-main-row tax-bar">
           <p>GST</p>
           <small *ngIf="data.orderScope == 'state'" class="text-muted"
             >CGST - 9% + SGST - 9%</small

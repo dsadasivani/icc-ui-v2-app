@@ -38,6 +38,7 @@ export class CreateOrderComponent implements OnInit {
   orderScopeOptions = [
     { name: 'state', value: 'Within State(CGST + SGST)' },
     { name: 'interState', value: 'Inter-State(IGST)' },
+    { name: 'offline', value: 'Offline Transaction' },
   ];
   creditOptions = [
     { name: '7 Days', value: 7 },
