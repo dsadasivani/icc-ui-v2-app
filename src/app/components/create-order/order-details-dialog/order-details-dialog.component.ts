@@ -55,7 +55,10 @@ export class OrderDetailsDialogComponent implements OnInit {
     if (this.data.cashDiscount) {
       value -= this.getDiscount('CASH');
     }
-    value += this.getTaxValue();
+    if (this.data.orderScope != 'offline') {
+      value += this.getTaxValue();
+    }
+
     return value;
   }
 
