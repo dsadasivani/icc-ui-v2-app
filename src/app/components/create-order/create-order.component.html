@@ -44,13 +44,34 @@
           <div class="semi-fields">
             <mat-form-field appearance="outline">
               <mat-label>GSTIN Number</mat-label>
-              <input matInput formControlName="gstin" required />
+              <input
+                matInput
+                formControlName="gstin"
+                required
+                [value]="gstin?.value | uppercase"
+              />
+              <mat-error *ngIf="gstin?.hasError('invalidGstin')"
+                >Invalid GSTIN Number</mat-error
+              >
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>Phone Number</mat-label>
-              <input matInput formControlName="phoneNumber" required />
+              <input
+                matInput
+                formControlName="phoneNumber"
+                maxlength="10"
+                minlength="10"
+                pattern="[0-9]*"
+                required
+              />
               <mat-icon matSuffix>phone</mat-icon>
-              <mat-hint>Include area code</mat-hint>
+              <mat-hint>Don't include area code</mat-hint>
+              <mat-hint align="end"
+                >{{ phoneNumber?.value.length }} / 10</mat-hint
+              >
+              <mat-error *ngIf="phoneNumber?.touched && phoneNumber?.invalid">
+                Enter Valid Phone Number
+              </mat-error>
             </mat-form-field>
           </div>
           <div>

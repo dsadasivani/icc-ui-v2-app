@@ -1,19 +1,19 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   Validators,
   FormBuilder,
   FormGroup,
   FormControl,
-  FormArray,
+  AbstractControl,
+  AsyncValidatorFn,
 } from '@angular/forms';
-import { MatChipSelectionChange } from '@angular/material/chips';
-import { Product } from 'src/app/model/products';
 import { DatePipe } from '@angular/common';
 import { OrdersService } from 'src/app/services/orders.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { OrderDetailsDialogComponent } from './order-details-dialog/order-details-dialog.component';
+import { Observable, debounceTime, distinctUntilChanged, map, of } from 'rxjs';
 
 @Component({
   selector: 'app-create-order',
@@ -65,6 +65,14 @@ export class CreateOrderComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeFormGroups();
+    this.firstFormGroup
+      .get('gstin')
+      ?.valueChanges.pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe(() => {
+        this.firstFormGroup
+          .get('gstin')
+          ?.updateValueAndValidity({ onlySelf: true });
+      });
   }
   openDialog() {
     this.orderObject = Object.assign(
@@ -93,7 +101,7 @@ export class CreateOrderComponent implements OnInit {
       companyName: ['', Validators.required],
       address: ['', Validators.required],
       address2: [''],
-      gstin: ['', Validators.required],
+      gstin: ['37AWMPK9162H2ZZ', Validators.required, [gstinValidator()]],
       phoneNumber: ['', Validators.required],
     });
     this.secondFormGroup = this._formBuilder.group({
@@ -102,7 +110,7 @@ export class CreateOrderComponent implements OnInit {
       otherTransport: [''],
       fobPoint: ['', Validators.required],
       invoiceNumber: ['', Validators.required],
-      invoiceDate: new FormControl('', Validators.required),
+      invoiceDate: new FormControl(new Date(), Validators.required),
       terms: ['', Validators.required],
       dueDate: [''],
       product1: new FormGroup({
@@ -142,6 +150,13 @@ export class CreateOrderComponent implements OnInit {
   }
   get cashDiscountChecked() {
     return this.thirdFormGroup.get('cashDiscount')?.value;
+  }
+
+  get gstin() {
+    return this.firstFormGroup.get('gstin');
+  }
+  get phoneNumber() {
+    return this.firstFormGroup.get('phoneNumber');
   }
   fun1(_event: any) {
     console.log(_event);
@@ -284,4 +299,15 @@ export class CreateOrderComponent implements OnInit {
     formGroup.get(formControlName)?.clearValidators();
     formGroup.get(formControlName)?.updateValueAndValidity();
   }
+}
+export function gstinValidator(): AsyncValidatorFn {
+  return (
+    control: AbstractControl
+  ): Observable<{ [key: string]: any } | null> => {
+    const gstin =
+      /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/i.test(
+        control.value
+      );
+    return of(gstin ? null : { invalidGstin: { value: control.value } });
+  };
 }
