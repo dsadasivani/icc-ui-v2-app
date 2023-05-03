@@ -134,9 +134,9 @@ export class CreateOrderComponent implements OnInit {
     });
     this.thirdFormGroup = this._formBuilder.group({
       tradeDiscount: [false],
-      tradeDiscountValue: [''],
+      tradeDiscountValue: [0],
       cashDiscount: [false],
-      cashDiscountValue: [''],
+      cashDiscountValue: [0],
       orderScope: ['', Validators.required],
     });
   }
