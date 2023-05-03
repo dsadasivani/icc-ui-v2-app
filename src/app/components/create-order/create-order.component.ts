@@ -117,16 +117,19 @@ export class CreateOrderComponent implements OnInit {
         productSelected: new FormControl(false),
         quantity: new FormControl(''),
         unitPrice: new FormControl(''),
+        activeFlag: new FormControl('Y'),
       }),
       product2: new FormGroup({
         productSelected: new FormControl(false),
         quantity: new FormControl(''),
         unitPrice: new FormControl(''),
+        activeFlag: new FormControl('Y'),
       }),
       product3: new FormGroup({
         productSelected: new FormControl(false),
         quantity: new FormControl(''),
         unitPrice: new FormControl(''),
+        activeFlag: new FormControl('Y'),
       }),
     });
     this.thirdFormGroup = this._formBuilder.group({
