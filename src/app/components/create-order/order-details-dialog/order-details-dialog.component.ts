@@ -7,17 +7,21 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./order-details-dialog.component.css'],
 })
 export class OrderDetailsDialogComponent implements OnInit {
+  submitLabel: string = '';
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
   getProductsAbsoluteValue(): number {
     let value = 0;
-    if (this.data.product1.productSelected) {
-      value += this.data.product1.quantity * this.data.product1.unitPrice;
+    if (this.data.order.product1.productSelected) {
+      value +=
+        this.data.order.product1.quantity * this.data.order.product1.unitPrice;
     }
-    if (this.data.product2.productSelected) {
-      value += this.data.product2.quantity * this.data.product2.unitPrice;
+    if (this.data.order.product2.productSelected) {
+      value +=
+        this.data.order.product2.quantity * this.data.order.product2.unitPrice;
     }
-    if (this.data.product3.productSelected) {
-      value += this.data.product3.quantity * this.data.product3.unitPrice;
+    if (this.data.order.product3.productSelected) {
+      value +=
+        this.data.order.product3.quantity * this.data.order.product3.unitPrice;
     }
     return value;
   }
@@ -25,23 +29,23 @@ export class OrderDetailsDialogComponent implements OnInit {
     let value = 0;
     value = this.getProductsAbsoluteValue();
     if (discountType === 'TRADE') {
-      value = value * (this.data.tradeDiscountValue / 100);
+      value = value * (this.data.order.tradeDiscountValue / 100);
     }
     if (discountType === 'CASH') {
-      if (this.data.tradeDiscount) {
+      if (this.data.order.tradeDiscount) {
         value -= this.getDiscount('TRADE');
       }
-      value = value * (this.data.cashDiscountValue / 100);
+      value = value * (this.data.order.cashDiscountValue / 100);
     }
     return value;
   }
   getTaxValue(): number {
     let value = 0;
     value = this.getProductsAbsoluteValue();
-    if (this.data.tradeDiscount) {
+    if (this.data.order.tradeDiscount) {
       value -= this.getDiscount('TRADE');
     }
-    if (this.data.cashDiscount) {
+    if (this.data.order.cashDiscount) {
       value -= this.getDiscount('CASH');
     }
     return value * 0.18;
@@ -49,13 +53,13 @@ export class OrderDetailsDialogComponent implements OnInit {
   getTotalAmount() {
     let value = 0;
     value = this.getProductsAbsoluteValue();
-    if (this.data.tradeDiscount) {
+    if (this.data.order.tradeDiscount) {
       value -= this.getDiscount('TRADE');
     }
-    if (this.data.cashDiscount) {
+    if (this.data.order.cashDiscount) {
       value -= this.getDiscount('CASH');
     }
-    if (this.data.orderScope != 'offline') {
+    if (this.data.order.orderScope != 'offline') {
       value += this.getTaxValue();
     }
 
@@ -63,6 +67,12 @@ export class OrderDetailsDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.data);
+    console.log(this.data.order);
+    console.log(this.data.pageType);
+    if (this.data.pageType == 'CREATE') {
+      this.submitLabel = 'Save';
+    } else if (this.data.pageType == 'UPDATE') {
+      this.submitLabel = 'Update';
+    }
   }
 }

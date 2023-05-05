@@ -27,6 +27,16 @@ const routes: Routes = [
       {
         path: 'create-order',
         component: CreateOrderComponent,
+        data: {
+          page: 'CREATE',
+        },
+      },
+      {
+        path: 'update-order',
+        component: CreateOrderComponent,
+        data: {
+          page: 'UPDATE',
+        },
       },
       {
         path: '',
