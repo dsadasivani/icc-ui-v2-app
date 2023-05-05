@@ -97,10 +97,13 @@ export class CreateOrderComponent implements OnInit {
       this.secondFormGroup.value,
       this.thirdFormGroup.value
     );
-    this.orderObject.invoiceDate = this.datepipe.transform(
-      this.orderObject.invoiceDate,
-      'yyyy-MM-dd'
-    );
+    if (this.orderPage == 'CREATE') {
+      this.orderObject.invoiceDate = this.datepipe.transform(
+        this.orderObject.invoiceDate,
+        'yyyy-MM-dd'
+      );
+    }
+    this.orderObject.orderSentDate = this.existingOrder.orderSentDate;
     const dialogRef = this.dialog.open(OrderDetailsDialogComponent, {
       data: { order: this.orderObject, pageType: this.orderPage },
     });
@@ -157,8 +160,8 @@ export class CreateOrderComponent implements OnInit {
       orderScope: ['', Validators.required],
     });
   }
-  private updateFormGroupsWithData() {
-    const order = this.existingOrder;
+  private updateFormGroupsWithData(orderDetails: any = undefined) {
+    const order = orderDetails == undefined ? this.existingOrder : orderDetails;
     this.firstFormGroup = this._formBuilder.group({
       companyName: [order.companyName, Validators.required],
       address: [order.address, Validators.required],
@@ -300,7 +303,47 @@ export class CreateOrderComponent implements OnInit {
     });
   }
   update() {
-    console.log(JSON.stringify(this.orderObject));
+    console.log(this.orderObject);
+    this.isLoading = true;
+    this.orderService
+      .updateOrderDetails(this.orderObject, this.existingOrder.orderId)
+      .subscribe({
+        next: (result: any) => {
+          console.log(result);
+          this._snackBar.open(
+            'Order Details Updated Successfully.',
+            'Dismiss',
+            {
+              duration: 3000,
+              panelClass: 'good-snackbar',
+            }
+          );
+          this.isLoading = false;
+        },
+        error: (result) => {
+          console.log(result);
+          if (result.status == 500) {
+            this._snackBar.open(
+              'Error occured while updating order details.',
+              'Dismiss',
+              {
+                duration: 3000,
+                panelClass: 'error-snackbar',
+              }
+            );
+          } else if (result.status == 304) {
+            this._snackBar.open(
+              'Please modify order details to update.',
+              'Dismiss',
+              {
+                duration: 3000,
+                panelClass: 'good-snackbar',
+              }
+            );
+          }
+          this.isLoading = false;
+        },
+      });
   }
   changeValue(event: any) {
     if (event.length == 0) {
