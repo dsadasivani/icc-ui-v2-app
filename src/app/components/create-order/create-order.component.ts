@@ -7,10 +7,10 @@ import {
   AbstractControl,
   AsyncValidatorFn,
 } from '@angular/forms';
-import { DatePipe } from '@angular/common';
+import { DatePipe, Location } from '@angular/common';
 import { OrdersService } from 'src/app/services/orders.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { OrderDetailsDialogComponent } from './order-details-dialog/order-details-dialog.component';
 import { Observable, debounceTime, distinctUntilChanged, map, of } from 'rxjs';
@@ -53,18 +53,35 @@ export class CreateOrderComponent implements OnInit {
   cashDiscountPercentage: any = 0;
   tradeDiscountPercentage: any = 0;
   isLoading = false;
-
+  orderPage: string = '';
+  saveLabel: string = '';
+  existingProducts: any[] = [];
+  existingOrder: any = {};
   constructor(
     private _formBuilder: FormBuilder,
     private datepipe: DatePipe,
     private orderService: OrdersService,
     private _snackBar: MatSnackBar,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private location: Location,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.initializeFormGroups();
+    this.orderPage = this.route.snapshot.data['page'];
+    if (this.orderPage == 'CREATE') {
+      this.saveLabel = 'Create';
+      this.initializeFormGroups();
+    } else if (this.orderPage == 'UPDATE') {
+      this.saveLabel = 'Update';
+      if (Object.keys(<string[]>this.location.getState()).length > 1) {
+        this.existingOrder = this.location.getState();
+        this.updateFormGroupsWithData();
+      } else {
+        this.router.navigateByUrl('/dashboard');
+      }
+    }
     this.firstFormGroup
       .get('gstin')
       ?.valueChanges.pipe(debounceTime(500), distinctUntilChanged())
@@ -80,18 +97,21 @@ export class CreateOrderComponent implements OnInit {
       this.secondFormGroup.value,
       this.thirdFormGroup.value
     );
-    this.orderObject.invoiceDate = this.datepipe.transform(
-      this.orderObject.invoiceDate,
-      'yyyy-MM-dd'
-    );
+    if (this.orderPage == 'CREATE') {
+      this.orderObject.invoiceDate = this.datepipe.transform(
+        this.orderObject.invoiceDate,
+        'yyyy-MM-dd'
+      );
+    }
+    this.orderObject.orderSentDate = this.existingOrder.orderSentDate;
     const dialogRef = this.dialog.open(OrderDetailsDialogComponent, {
-      data: this.orderObject,
+      data: { order: this.orderObject, pageType: this.orderPage },
     });
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
       if (result) {
         console.log('order saved');
-        this.save();
+        this.orderPage == 'CREATE' ? this.save() : this.update();
       }
     });
   }
@@ -117,24 +137,108 @@ export class CreateOrderComponent implements OnInit {
         productSelected: new FormControl(false),
         quantity: new FormControl(''),
         unitPrice: new FormControl(''),
+        activeFlag: new FormControl('Y'),
       }),
       product2: new FormGroup({
         productSelected: new FormControl(false),
         quantity: new FormControl(''),
         unitPrice: new FormControl(''),
+        activeFlag: new FormControl('Y'),
       }),
       product3: new FormGroup({
         productSelected: new FormControl(false),
         quantity: new FormControl(''),
         unitPrice: new FormControl(''),
+        activeFlag: new FormControl('Y'),
       }),
     });
     this.thirdFormGroup = this._formBuilder.group({
       tradeDiscount: [false],
-      tradeDiscountValue: [''],
+      tradeDiscountValue: [0],
       cashDiscount: [false],
-      cashDiscountValue: [''],
+      cashDiscountValue: [0],
       orderScope: ['', Validators.required],
+    });
+  }
+  private updateFormGroupsWithData(orderDetails: any = undefined) {
+    const order = orderDetails == undefined ? this.existingOrder : orderDetails;
+    this.firstFormGroup = this._formBuilder.group({
+      companyName: [order.companyName, Validators.required],
+      address: [order.address, Validators.required],
+      address2: [order.address2],
+      gstin: [order.gstin, Validators.required, [gstinValidator()]],
+      phoneNumber: [order.phoneNumber, Validators.required],
+    });
+
+    this.productOptions
+      .filter((x) =>
+        order.product.map((y: any) => (y = y.productId)).includes(x.name)
+      )
+      .map((y) => (y.selected = true));
+    this.existingProducts.push(
+      ...this.productOptions.filter((x) => x.selected)
+    );
+
+    this.secondFormGroup = this._formBuilder.group({
+      salesPersonName: [order.salesPersonName, Validators.required],
+      transport: [order.orderSentVia, Validators.required],
+      otherTransport: [
+        order.orderSentVia == 'OTHERS' ? order.orderSentVia : '',
+      ],
+      fobPoint: [order.fobPoint, Validators.required],
+      invoiceNumber: [order.invoiceNumber, Validators.required],
+      invoiceDate: new FormControl(
+        new Date(order.invoiceDate),
+        Validators.required
+      ),
+      terms: [order.terms, Validators.required],
+      dueDate: [order.terms == 'Credit' ? order.terms : ''],
+      product1: new FormGroup({
+        productSelected: new FormControl(false),
+        quantity: new FormControl(''),
+        unitPrice: new FormControl(''),
+        activeFlag: new FormControl('Y'),
+      }),
+      product2: new FormGroup({
+        productSelected: new FormControl(false),
+        quantity: new FormControl(''),
+        unitPrice: new FormControl(''),
+        activeFlag: new FormControl('Y'),
+      }),
+      product3: new FormGroup({
+        productSelected: new FormControl(false),
+        quantity: new FormControl(''),
+        unitPrice: new FormControl(''),
+        activeFlag: new FormControl('Y'),
+      }),
+    });
+    const prodCodes = ['product1', 'product2', 'product3'];
+    this.setExistingProductValues(prodCodes);
+    let scope = '';
+    if (order.csgstFlag == 'Y') scope = 'state';
+    else if (order.igstFlag == 'Y') scope = 'interState';
+    else if (order.offlineTransactionFlag == 'Y') scope = 'offline';
+    this.tradeDiscountPercentage = order.tradeDiscountValue;
+    this.cashDiscountPercentage = order.cashDiscountValue;
+    this.thirdFormGroup = this._formBuilder.group({
+      tradeDiscount: [order.tradeDiscount == 'Y' ? true : false],
+      tradeDiscountValue: [order.tradeDiscountValue],
+      cashDiscount: [order.cashDiscount == 'Y' ? true : false],
+      cashDiscountValue: [order.cashDiscountValue],
+      orderScope: [scope, Validators.required],
+    });
+  }
+
+  private setExistingProductValues(prodCodes: string[]) {
+    this.existingOrder.product.forEach((x: any) => {
+      prodCodes.forEach((prodName: any) => {
+        if (x.productId == prodName) {
+          let prodControl = this.secondFormGroup.get(prodName);
+          prodControl?.get('productSelected')?.setValue(true);
+          prodControl?.get('quantity')?.setValue(x.quantity);
+          prodControl?.get('unitPrice')?.setValue(x.unitPrice);
+        }
+      });
     });
   }
 
@@ -198,8 +302,50 @@ export class CreateOrderComponent implements OnInit {
       },
     });
   }
+  update() {
+    console.log(this.orderObject);
+    this.isLoading = true;
+    this.orderService
+      .updateOrderDetails(this.orderObject, this.existingOrder.orderId)
+      .subscribe({
+        next: (result: any) => {
+          console.log(result);
+          this._snackBar.open(
+            'Order Details Updated Successfully.',
+            'Dismiss',
+            {
+              duration: 3000,
+              panelClass: 'good-snackbar',
+            }
+          );
+          this.isLoading = false;
+        },
+        error: (result) => {
+          console.log(result);
+          if (result.status == 500) {
+            this._snackBar.open(
+              'Error occured while updating order details.',
+              'Dismiss',
+              {
+                duration: 3000,
+                panelClass: 'error-snackbar',
+              }
+            );
+          } else if (result.status == 304) {
+            this._snackBar.open(
+              'Please modify order details to update.',
+              'Dismiss',
+              {
+                duration: 3000,
+                panelClass: 'good-snackbar',
+              }
+            );
+          }
+          this.isLoading = false;
+        },
+      });
+  }
   changeValue(event: any) {
-    console.log('sasaadsdsd', event);
     if (event.length == 0) {
       this.productOptions.map((x) => (x.selected = false));
     } else {
@@ -213,6 +359,9 @@ export class CreateOrderComponent implements OnInit {
             ?.value == false
         )
           this.setProductField(selectedProduct.name, true);
+        if ((this.orderPage = 'UPDATE')) {
+          this.setExistingProductValues([selectedProduct.name]);
+        }
       });
     }
     console.log(this.productOptions);

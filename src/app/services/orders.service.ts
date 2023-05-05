@@ -24,4 +24,7 @@ export class OrdersService {
   addOrderDetails(data: any) {
     return this._http.post(this.baseUrl + 'createOrder', data);
   }
+  updateOrderDetails(data: any, orderId: number) {
+    return this._http.post(this.baseUrl + `updateOrder/${orderId}`, data);
+  }
 }

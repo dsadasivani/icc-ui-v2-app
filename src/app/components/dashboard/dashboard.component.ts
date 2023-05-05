@@ -15,6 +15,7 @@ import { map, pairwise, filter, throttleTime } from 'rxjs/operators';
 import { timer } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FileUtilsService } from 'src/app/services/file-utils.service';
+import { Router } from '@angular/router';
 
 declare var require: any;
 const FileSaver = require('file-saver');
@@ -53,7 +54,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private orderService: OrdersService,
     private fileService: FileUtilsService,
     private ngZone: NgZone,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -139,5 +141,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         });
       },
     });
+  }
+  navigateToEditOrder(order: any) {
+    this.router.navigateByUrl('/update-order', { state: order });
   }
 }
