@@ -121,7 +121,7 @@ export class CreateOrderComponent implements OnInit {
       companyName: ['', Validators.required],
       address: ['', Validators.required],
       address2: [''],
-      gstin: ['37AWMPK9162H2ZZ', Validators.required, [gstinValidator()]],
+      gstin: ['', Validators.required, [gstinValidator()]],
       phoneNumber: ['', Validators.required],
     });
     this.secondFormGroup = this._formBuilder.group({
@@ -230,16 +230,18 @@ export class CreateOrderComponent implements OnInit {
   }
 
   private setExistingProductValues(prodCodes: string[]) {
-    this.existingOrder.product.forEach((x: any) => {
-      prodCodes.forEach((prodName: any) => {
-        if (x.productId == prodName) {
-          let prodControl = this.secondFormGroup.get(prodName);
-          prodControl?.get('productSelected')?.setValue(true);
-          prodControl?.get('quantity')?.setValue(x.quantity);
-          prodControl?.get('unitPrice')?.setValue(x.unitPrice);
-        }
+    if (this.existingOrder.product != undefined) {
+      this.existingOrder.product.forEach((x: any) => {
+        prodCodes.forEach((prodName: any) => {
+          if (x.productId == prodName) {
+            let prodControl = this.secondFormGroup.get(prodName);
+            prodControl?.get('productSelected')?.setValue(true);
+            prodControl?.get('quantity')?.setValue(x.quantity);
+            prodControl?.get('unitPrice')?.setValue(x.unitPrice);
+          }
+        });
       });
-    });
+    }
   }
 
   get invoiceDate() {
@@ -359,7 +361,7 @@ export class CreateOrderComponent implements OnInit {
             ?.value == false
         )
           this.setProductField(selectedProduct.name, true);
-        if ((this.orderPage = 'UPDATE')) {
+        if (this.orderPage == 'UPDATE') {
           this.setExistingProductValues([selectedProduct.name]);
         }
       });
