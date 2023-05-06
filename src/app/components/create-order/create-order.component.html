@@ -59,6 +59,7 @@
                 required
                 [value]="gstin?.value | uppercase"
               />
+              <mat-hint>Example - 37AWMPK9162H2ZZ</mat-hint>
               <mat-error *ngIf="gstin?.hasError('invalidGstin')"
                 >Invalid GSTIN Number</mat-error
               >

@@ -121,7 +121,7 @@ export class CreateOrderComponent implements OnInit {
       companyName: ['', Validators.required],
       address: ['', Validators.required],
       address2: [''],
-      gstin: ['37AWMPK9162H2ZZ', Validators.required, [gstinValidator()]],
+      gstin: ['', Validators.required, [gstinValidator()]],
       phoneNumber: ['', Validators.required],
     });
     this.secondFormGroup = this._formBuilder.group({
