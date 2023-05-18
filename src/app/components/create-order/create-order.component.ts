@@ -231,7 +231,7 @@ export class CreateOrderComponent implements OnInit {
         order.orderSentVia == 'OTHERS' ? order.orderSentVia : '',
       ],
       fobPoint: [order.fobPoint, Validators.required],
-      invoiceNumber: [order.invoiceNumber, Validators.required],
+      invoiceNumber: [{ value: order.invoiceNumber, disabled: true }],
       invoiceDate: new FormControl(
         new Date(order.invoiceDate),
         Validators.required
