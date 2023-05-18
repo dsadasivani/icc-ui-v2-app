@@ -16,6 +16,7 @@ import { OrderDetailsDialogComponent } from './order-details-dialog/order-detail
 import { Observable, debounceTime, distinctUntilChanged, map, of } from 'rxjs';
 import { TransportDetailsService } from 'src/app/services/transport-details.service';
 
+let existingInvoiceNumbers: number[] = [];
 @Component({
   selector: 'app-create-order',
   templateUrl: './create-order.component.html',
@@ -64,12 +65,7 @@ export class CreateOrderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.transportDetailsService.getTransportDetails().subscribe({
-      next: (result) => {
-        console.log('Transport Details ->', result);
-        this.transportOptions = result;
-      },
-    });
+    this.dataPreloads();
     this.orderPage = this.route.snapshot.data['page'];
     if (this.orderPage == 'CREATE') {
       this.saveLabel = 'Create';
@@ -83,6 +79,42 @@ export class CreateOrderComponent implements OnInit {
         this.router.navigateByUrl('/dashboard');
       }
     }
+    this.revalidateFormCustomErrors();
+  }
+  private dataPreloads() {
+    this.transportDetailsService.getTransportDetails().subscribe({
+      next: (result) => {
+        console.log('Transport Details ->', result);
+        this.transportOptions = result;
+      },
+      error: (error) => {
+        console.log('error -> ', error);
+        this._snackBar.open(
+          'Error while fetching Transport details',
+          'Dismiss',
+          {
+            duration: 3000,
+            panelClass: 'error-snackbar',
+          }
+        );
+      },
+    });
+    this.orderService.getInvoiceNumbers().subscribe({
+      next: (result: number[]) => {
+        console.log('Invoice Numbers -> ', result);
+        existingInvoiceNumbers = result;
+      },
+      error: (error) => {
+        console.log('error -> ', error);
+        this._snackBar.open('Error while fetching Invoice Numbers', 'Dismiss', {
+          duration: 3000,
+          panelClass: 'error-snackbar',
+        });
+      },
+    });
+  }
+
+  private revalidateFormCustomErrors() {
     this.firstFormGroup
       .get('gstin')
       ?.valueChanges.pipe(debounceTime(500), distinctUntilChanged())
@@ -91,6 +123,18 @@ export class CreateOrderComponent implements OnInit {
           .get('gstin')
           ?.updateValueAndValidity({ onlySelf: true });
       });
+    this.secondFormGroup
+      .get('invoiceNumber')
+      ?.valueChanges.pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe(() => {
+        this.secondFormGroup
+          .get('invoiceNumber')
+          ?.updateValueAndValidity({ onlySelf: true });
+      });
+  }
+
+  nextInvoiceNumber(): number {
+    return existingInvoiceNumbers[0] + 1;
   }
   openDialog() {
     this.orderObject = Object.assign(
@@ -130,7 +174,7 @@ export class CreateOrderComponent implements OnInit {
       transport: ['', Validators.required],
       otherTransport: [''],
       fobPoint: ['', Validators.required],
-      invoiceNumber: ['', Validators.required],
+      invoiceNumber: ['', Validators.required, [invoiceValidator()]],
       invoiceDate: new FormControl(new Date(), Validators.required),
       terms: ['', Validators.required],
       dueDate: [''],
@@ -486,5 +530,14 @@ export function gstinValidator(): AsyncValidatorFn {
         control.value
       );
     return of(gstin ? null : { invalidGstin: { value: control.value } });
+  };
+}
+
+export function invoiceValidator(): AsyncValidatorFn {
+  return (
+    control: AbstractControl
+  ): Observable<{ [key: string]: any } | null> => {
+    const invoice = !existingInvoiceNumbers.includes(control.value);
+    return of(invoice ? null : { invalidInvoice: { value: control.value } });
   };
 }

@@ -155,6 +155,15 @@
                 formControlName="invoiceNumber"
                 required
               />
+              <mat-hint> Next Invoice No. {{ nextInvoiceNumber() }} </mat-hint>
+              <mat-error
+                *ngIf="
+                  secondFormGroup
+                    .get('invoiceNumber')
+                    ?.hasError('invalidInvoice')
+                "
+                >Already Exists</mat-error
+              >
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>Invoice Date</mat-label>
