@@ -280,6 +280,7 @@ export class CreateOrderComponent implements OnInit {
     console.log(this.secondFormGroup.status);
   }
   save() {
+    this.ValidateDuplicateTransport();
     console.log(this.orderObject);
     this.isLoading = true;
     this.orderService.addOrderDetails(this.orderObject).subscribe({
@@ -306,6 +307,7 @@ export class CreateOrderComponent implements OnInit {
     });
   }
   update() {
+    this.ValidateDuplicateTransport();
     console.log(this.orderObject);
     this.isLoading = true;
     this.orderService
@@ -350,6 +352,22 @@ export class CreateOrderComponent implements OnInit {
         },
       });
   }
+  private ValidateDuplicateTransport() {
+    if (
+      this.orderObject.transport === 'OTHERS' &&
+      this.transportOptions
+        .map((x) => (x = x.transportName.toLowerCase()))
+        .includes(this.orderObject.otherTransport.toLowerCase())
+    ) {
+      this.orderObject.transport = this.transportOptions.find(
+        (x) =>
+          x.transportName.toLowerCase() ==
+          this.orderObject.otherTransport.toLowerCase()
+      ).transportId;
+      this.orderObject.otherTransport = '';
+    }
+  }
+
   changeValue(event: any) {
     if (event.length == 0) {
       this.productOptions.map((x) => (x.selected = false));
