@@ -155,7 +155,9 @@
                 formControlName="invoiceNumber"
                 required
               />
-              <mat-hint> Next Invoice No. {{ nextInvoiceNumber() }} </mat-hint>
+              <mat-hint *ngIf="orderPage == 'CREATE'">
+                Next Invoice No. {{ nextInvoiceNumber() }}
+              </mat-hint>
               <mat-error
                 *ngIf="
                   secondFormGroup
