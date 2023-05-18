@@ -112,10 +112,11 @@
               >
                 <mat-option
                   *ngFor="let selectedTransport of transportOptions"
-                  [value]="selectedTransport.name"
+                  [value]="selectedTransport.transportId"
                 >
-                  {{ selectedTransport.name }}
+                  {{ selectedTransport.transportName }}
                 </mat-option>
+                <mat-option value="OTHERS"><b>-OTHERS-</b></mat-option>
               </mat-select>
             </mat-form-field>
             <mat-form-field
