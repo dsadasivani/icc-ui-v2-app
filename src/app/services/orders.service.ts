@@ -27,4 +27,7 @@ export class OrdersService {
   updateOrderDetails(data: any, orderId: number) {
     return this._http.post(this.baseUrl + `updateOrder/${orderId}`, data);
   }
+  getInvoiceNumbers(): Observable<number[]> {
+    return this._http.get<number[]>(this.baseUrl + 'getInvoiceNumbers', {});
+  }
 }
