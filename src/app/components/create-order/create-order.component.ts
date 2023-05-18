@@ -14,6 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { OrderDetailsDialogComponent } from './order-details-dialog/order-details-dialog.component';
 import { Observable, debounceTime, distinctUntilChanged, map, of } from 'rxjs';
+import { TransportDetailsService } from 'src/app/services/transport-details.service';
 
 @Component({
   selector: 'app-create-order',
@@ -26,14 +27,7 @@ export class CreateOrderComponent implements OnInit {
   secondFormGroup: FormGroup = new FormGroup({});
   thirdFormGroup: FormGroup = new FormGroup({});
   productsControl = new FormControl<any[]>([]);
-  transportOptions = [
-    { name: 'ARC' },
-    { name: 'Kranti' },
-    { name: 'Navata' },
-    { name: 'BMPS' },
-    { name: 'Kesineni' },
-    { name: 'OTHERS' },
-  ];
+  transportOptions: any[] = [];
   termsOptions = [{ name: 'Cash' }, { name: 'Credit' }];
   orderScopeOptions = [
     { name: 'state', value: 'Within State(CGST + SGST)' },
@@ -65,10 +59,17 @@ export class CreateOrderComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private location: Location,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private transportDetailsService: TransportDetailsService
   ) {}
 
   ngOnInit(): void {
+    this.transportDetailsService.getTransportDetails().subscribe({
+      next: (result) => {
+        console.log('Transport Details ->', result);
+        this.transportOptions = result;
+      },
+    });
     this.orderPage = this.route.snapshot.data['page'];
     if (this.orderPage == 'CREATE') {
       this.saveLabel = 'Create';
@@ -321,6 +322,8 @@ export class CreateOrderComponent implements OnInit {
             }
           );
           this.isLoading = false;
+          this.resetPage();
+          this.router.navigate(['dashboard']);
         },
         error: (result) => {
           console.log(result);
