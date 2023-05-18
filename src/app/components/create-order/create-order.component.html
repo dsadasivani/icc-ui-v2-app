@@ -153,6 +153,7 @@
                 matInput
                 type="number"
                 formControlName="invoiceNumber"
+                [readonly]="orderPage == 'UPDATE'"
                 required
               />
               <mat-hint *ngIf="orderPage == 'CREATE'">
