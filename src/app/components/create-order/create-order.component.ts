@@ -370,7 +370,7 @@ export class CreateOrderComponent implements OnInit {
   validateOtherTransport(value: string): boolean {
     return this.transportOptions
       .map((x) => (x = x.transportName.toLowerCase()))
-      .includes(value);
+      .includes(value.toLowerCase());
   }
 
   changeValue(event: any) {
