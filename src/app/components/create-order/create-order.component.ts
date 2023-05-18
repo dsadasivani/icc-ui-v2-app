@@ -367,6 +367,11 @@ export class CreateOrderComponent implements OnInit {
       this.orderObject.otherTransport = '';
     }
   }
+  validateOtherTransport(value: string): boolean {
+    return this.transportOptions
+      .map((x) => (x = x.transportName.toLowerCase()))
+      .includes(value);
+  }
 
   changeValue(event: any) {
     if (event.length == 0) {

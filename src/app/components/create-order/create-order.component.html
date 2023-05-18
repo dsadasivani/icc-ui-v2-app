@@ -129,6 +129,16 @@
                 formControlName="otherTransport"
                 required
               />
+              <mat-hint
+                style="color: #673ab7"
+                *ngIf="
+                  validateOtherTransport(
+                    secondFormGroup.get('otherTransport')?.value
+                  )
+                "
+                >Given transport agency already exists. Please select from
+                <b>'Sent Via'</b> dropdown</mat-hint
+              >
             </mat-form-field>
           </div>
           <mat-form-field appearance="outline">
