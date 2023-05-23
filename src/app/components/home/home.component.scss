@@ -48,3 +48,14 @@ mat-toolbar {
   top: 0px;
   z-index: 10000;
 }
+
+.blur-background {
+  backdrop-filter: blur(8px); /* Increase the blur value */
+  pointer-events: none; /* Prevents the background from capturing click events */
+  opacity: 0; /* Initially set the opacity to 0 */
+  transition: opacity 0.3s ease; /* Add a transition for smooth fading effect */
+}
+
+.blur-background.show {
+  opacity: 1; /* Change the opacity to 1 to show the background */
+}

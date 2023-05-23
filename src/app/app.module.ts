@@ -42,6 +42,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { OrderDetailsDialogComponent } from './components/create-order/order-details-dialog/order-details-dialog.component';
 import { MatListModule } from '@angular/material/list';
 import { InventoryComponent } from './components/inventory/inventory.component';
+import { SearchComponent } from './components/search/search.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,7 @@ import { InventoryComponent } from './components/inventory/inventory.component';
     UnderProgressComponent,
     OrderDetailsDialogComponent,
     InventoryComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -91,6 +94,7 @@ import { InventoryComponent } from './components/inventory/inventory.component';
     MatSliderModule,
     MatDialogModule,
     MatListModule,
+    MatAutocompleteModule,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],
