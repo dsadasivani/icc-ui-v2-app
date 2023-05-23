@@ -17,6 +17,14 @@ export class HomeComponent implements OnInit {
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
 
+  @HostListener('document:keydown.control.f', ['$event'])
+  onSearchShortcut(event: KeyboardEvent) {
+    if (!this.isSearchDialogOpen) {
+      event.preventDefault();
+      this.openSearchDialog();
+    }
+  }
+
   menuIconName = 'menu';
   innerWidth: any;
   mobileHeader: boolean = false;

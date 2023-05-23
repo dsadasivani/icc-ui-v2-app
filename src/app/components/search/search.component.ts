@@ -7,7 +7,6 @@ interface Order {
   salesPerson: string;
   companyName: string;
   address: string;
-  gstin: string;
   phoneNumber: number;
 }
 
@@ -27,7 +26,6 @@ export class SearchComponent implements OnInit {
     { label: 'Agent', value: 'salesPersonSearch', icon: 'person' },
     { label: 'Company', value: 'companyNameSearch', icon: 'store' },
     { label: 'Address', value: 'addressSearch', icon: 'alternate_email' },
-    { label: 'GST No.', value: 'gstinSearch', icon: 'info' },
     { label: 'Phone No.', value: 'phoneNumberSearch', icon: 'phone' },
   ];
   selectedFilter: string = 'all';
@@ -37,20 +35,19 @@ export class SearchComponent implements OnInit {
       salesPerson: 'Dilip',
       companyName: 'Google',
       address: 'California, USA',
-      gstin: 'ASSDSD3432D',
       phoneNumber: 9160690173,
     },
     {
       salesPerson: 'Swathi',
       companyName: 'IBM',
       address: 'Ohio, USA',
-      gstin: 'AS78YD3432D',
       phoneNumber: 9703874786,
     },
   ];
   isLoadingResults: boolean = false;
   filteredOptions: Observable<Order[]>;
   hasResults: boolean = true;
+  searchLabel: string = 'Search';
 
   constructor() {
     this.filteredOptions = this.searchControl.valueChanges.pipe(
@@ -69,7 +66,6 @@ export class SearchComponent implements OnInit {
           option.salesPerson.toLowerCase().includes(filterValue) ||
           option.companyName.toLowerCase().includes(filterValue) ||
           option.address.toString().includes(filterValue) ||
-          option.gstin.toString().includes(filterValue) ||
           option.phoneNumber.toString().includes(filterValue)
         );
       } else if (selectedFilter === 'salesPersonSearch') {
@@ -78,8 +74,6 @@ export class SearchComponent implements OnInit {
         return option.companyName.toLowerCase().includes(filterValue);
       } else if (selectedFilter === 'addressSearch') {
         return option.address.toLowerCase().includes(filterValue);
-      } else if (selectedFilter === 'gstinSearch') {
-        return option.gstin.toLowerCase().includes(filterValue);
       } else if (selectedFilter === 'phoneNumberSearch') {
         return option.phoneNumber.toString().includes(filterValue);
       }
@@ -87,15 +81,16 @@ export class SearchComponent implements OnInit {
     });
   }
 
-  selectFilter(filterValue: string): void {
-    this.selectedFilter = filterValue;
+  selectFilter(filterValue: any): void {
+    this.selectedFilter = filterValue.value;
+    this.searchLabel = `Search ${filterValue.label}`;
     this.filteredOptions = this.searchControl.valueChanges.pipe(
       startWith(''),
       map((value) => this.filterOptions(value))
     );
   }
   highlightMatch(order: Order): string {
-    const value = `${order.salesPerson} | ${order.companyName} | ${order.phoneNumber} | ${order.gstin} | ${order.address} `;
+    const value = `${order.salesPerson} | ${order.companyName} | ${order.phoneNumber} | ${order.address} `;
     const filterValue = this.searchControl.value
       ? this.searchControl.value.toLowerCase()
       : '';
@@ -109,34 +104,27 @@ export class SearchComponent implements OnInit {
         nameRegex,
         (match) => `<mark>${match}</mark>`
       );
-      return `${highlightedAgent} | ${order.companyName} | ${order.phoneNumber} | ${order.gstin} | ${order.address}`;
+      return `${highlightedAgent} | ${order.companyName} | ${order.phoneNumber} | ${order.address}`;
     } else if (this.selectedFilter === 'companyNameSearch') {
       const deptRegex = new RegExp(filterValue, 'gi');
       const highlightedCompanyName = order.companyName.replace(
         deptRegex,
         (match) => `<mark>${match}</mark>`
       );
-      return `${order.salesPerson} | ${highlightedCompanyName} | ${order.phoneNumber} | ${order.gstin} | ${order.address}`;
+      return `${order.salesPerson} | ${highlightedCompanyName} | ${order.phoneNumber} | ${order.address}`;
     } else if (this.selectedFilter === 'addressSearch') {
       const salaryRegex = new RegExp(filterValue, 'gi');
       const highlightedAddress = order.address.replace(
         salaryRegex,
         (match) => `<mark>${match}</mark>`
       );
-      return `${order.salesPerson} | ${order.companyName} | ${order.phoneNumber} | ${order.gstin} | ${highlightedAddress}`;
-    } else if (this.selectedFilter === 'gstinSearch') {
-      const salaryRegex = new RegExp(filterValue, 'gi');
-      const highlightedGstin = order.gstin.replace(
-        salaryRegex,
-        (match) => `<mark>${match}</mark>`
-      );
-      return `${order.salesPerson} | ${order.companyName} | ${order.phoneNumber} | ${highlightedGstin} | ${order.address}`;
+      return `${order.salesPerson} | ${order.companyName} | ${order.phoneNumber} | ${highlightedAddress}`;
     } else if (this.selectedFilter === 'phoneNumberSearch') {
       const salaryRegex = new RegExp(filterValue, 'gi');
       const highlightedPhoneNumber = order.phoneNumber
         .toString()
         .replace(salaryRegex, (match) => `<mark>${match}</mark>`);
-      return `${order.salesPerson} | ${order.companyName} | ${highlightedPhoneNumber} | ${order.gstin} | ${order.address}`;
+      return `${order.salesPerson} | ${order.companyName} | ${highlightedPhoneNumber} | ${order.address}`;
     }
 
     return value;

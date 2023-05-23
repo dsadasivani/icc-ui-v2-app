@@ -44,6 +44,7 @@ import { MatListModule } from '@angular/material/list';
 import { InventoryComponent } from './components/inventory/inventory.component';
 import { SearchComponent } from './components/search/search.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatDialogModule,
     MatListModule,
     MatAutocompleteModule,
+    MatTooltipModule,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],
