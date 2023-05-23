@@ -6,6 +6,7 @@
       class="search-chip"
       *ngFor="let filterOption of filters"
     >
+      <mat-icon class="search-icons">{{ filterOption.icon }}</mat-icon>
       {{ filterOption.label }}
     </mat-chip>
   </mat-chip-list>
@@ -17,6 +18,7 @@
       [formControl]="searchControl"
       [matAutocomplete]="auto"
     />
+    <mat-icon matSuffix>search</mat-icon>
     <mat-autocomplete #auto="matAutocomplete">
       <mat-option *ngIf="!hasResults"> no results</mat-option>
       <mat-option

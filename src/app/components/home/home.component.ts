@@ -59,7 +59,7 @@ export class HomeComponent implements OnInit {
     dialogConfig.position = { top: '0' };
     const dialogRef = this.dialog.open(SearchComponent, {
       panelClass: 'blur-background', // Apply the CSS class for the blurred background
-      width: '400px', // Adjust the width of the dialog according to your needs
+      width: '600px', // Adjust the width of the dialog according to your needs
       position: { top: '100px' },
     });
 
