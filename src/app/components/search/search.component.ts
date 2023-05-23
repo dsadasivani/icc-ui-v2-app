@@ -23,12 +23,12 @@ export class SearchComponent implements OnInit {
     });
   }
   filters: any[] = [
-    { label: 'All', value: 'all' },
-    { label: 'Agent', value: 'salesPersonSearch' },
-    { label: 'Company', value: 'companyNameSearch' },
-    { label: 'Address', value: 'addressSearch' },
-    { label: 'GST No.', value: 'gstinSearch' },
-    { label: 'Phone No.', value: 'phoneNumberSearch' },
+    { label: 'All', value: 'all', icon: 'apps' },
+    { label: 'Agent', value: 'salesPersonSearch', icon: 'person' },
+    { label: 'Company', value: 'companyNameSearch', icon: 'store' },
+    { label: 'Address', value: 'addressSearch', icon: 'alternate_email' },
+    { label: 'GST No.', value: 'gstinSearch', icon: 'info' },
+    { label: 'Phone No.', value: 'phoneNumberSearch', icon: 'phone' },
   ];
   selectedFilter: string = 'all';
   searchControl = new FormControl();

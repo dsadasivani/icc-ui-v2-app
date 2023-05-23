@@ -6,6 +6,7 @@
       class="search-chip"
       *ngFor="let filterOption of filters"
     >
+      <mat-icon class="search-icons">{{ filterOption.icon }}</mat-icon>
       {{ filterOption.label }}
     </mat-chip>
   </mat-chip-list>
