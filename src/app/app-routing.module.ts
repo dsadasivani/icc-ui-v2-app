@@ -39,6 +39,10 @@ const routes: Routes = [
         },
       },
       {
+        path: 'inventory',
+        component: UnderProgressComponent,
+      },
+      {
         path: '',
         component: AboutComponent,
       },

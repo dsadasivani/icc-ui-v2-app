@@ -42,5 +42,14 @@
       <mat-icon>add_circle</mat-icon>
       <span>Order</span>
     </button>
+    <button
+      mat-button
+      class="menu-button"
+      [routerLink]="['/inventory']"
+      (click)="toggleNavBar()"
+    >
+      <mat-icon>inventory_2</mat-icon>
+      <span>Inventory</span>
+    </button>
   </div>
 </div>

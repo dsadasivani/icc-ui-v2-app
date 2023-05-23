@@ -231,13 +231,13 @@ export class CreateOrderComponent implements OnInit {
         order.orderSentVia == 'OTHERS' ? order.orderSentVia : '',
       ],
       fobPoint: [order.fobPoint, Validators.required],
-      invoiceNumber: [{ value: order.invoiceNumber, disabled: true }],
+      invoiceNumber: [order.invoiceNumber, Validators.required],
       invoiceDate: new FormControl(
         new Date(order.invoiceDate),
         Validators.required
       ),
       terms: [order.terms, Validators.required],
-      dueDate: [order.terms == 'Credit' ? order.terms : ''],
+      dueDate: [order.terms == 'Credit' ? parseInt(order.dueDate) : ''],
       product1: new FormGroup({
         productSelected: new FormControl(false),
         quantity: new FormControl(''),

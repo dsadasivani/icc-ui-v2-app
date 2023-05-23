@@ -15,8 +15,15 @@
             </mat-icon>
           </div>
           <div class="box2">
+            <!-- <app-search></app-search> -->
+            <mat-icon
+              *ngIf="!isSearchDialogOpen"
+              [class.blur-background]="isSearchDialogOpen"
+              [class.show]="isSearchDialogOpen"
+              (click)="openSearchDialog()"
+              >search</mat-icon
+            >
             <a [routerLink]="['/about']"><mat-icon>home</mat-icon></a>
-            <mat-icon>search</mat-icon>
             <mat-icon>login</mat-icon>
           </div>
         </mat-toolbar>
