@@ -4,6 +4,8 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { NavigationEnd, Router } from '@angular/router';
 import { delay, filter } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { SearchComponent } from '../search/search.component';
 
 @UntilDestroy()
 @Component({
@@ -18,7 +20,12 @@ export class HomeComponent implements OnInit {
   menuIconName = 'menu';
   innerWidth: any;
   mobileHeader: boolean = false;
-  constructor(private observer: BreakpointObserver, private router: Router) {}
+  isSearchDialogOpen: boolean = false;
+  constructor(
+    private observer: BreakpointObserver,
+    private router: Router,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
@@ -46,6 +53,23 @@ export class HomeComponent implements OnInit {
           this.sidenav.close();
         }
       });
+  }
+  openSearchDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.position = { top: '0' };
+    const dialogRef = this.dialog.open(SearchComponent, {
+      panelClass: 'blur-background', // Apply the CSS class for the blurred background
+      width: '400px', // Adjust the width of the dialog according to your needs
+      position: { top: '100px' },
+    });
+
+    dialogRef.afterOpened().subscribe(() => {
+      this.isSearchDialogOpen = true; // Set the property to true when the dialog is opened
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.isSearchDialogOpen = false; // Set the property to false when the dialog is closed
+    });
   }
   @HostListener('window:resize', ['$event'])
   onResize() {
