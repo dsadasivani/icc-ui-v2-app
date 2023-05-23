@@ -38,3 +38,8 @@ mat-form-field {
 .search-input {
   flex: 1;
 }
+.search-icons {
+  font-size: 1.4em;
+  padding-top: 6px;
+  padding-right: 2px;
+}
