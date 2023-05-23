@@ -2,7 +2,7 @@
   <mat-chip-list>
     <mat-chip
       [selected]="selectedFilter === filterOption.value"
-      (click)="selectFilter(filterOption.value)"
+      (click)="selectFilter(filterOption)"
       class="search-chip"
       *ngFor="let filterOption of filters"
     >
@@ -13,7 +13,7 @@
   <mat-form-field class="search-input">
     <input
       type="text"
-      placeholder="Search"
+      [placeholder]="searchLabel"
       matInput
       [formControl]="searchControl"
       [matAutocomplete]="auto"
