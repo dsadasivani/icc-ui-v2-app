@@ -20,10 +20,23 @@
     />
     <mat-icon matSuffix>search</mat-icon>
     <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngIf="!hasResults"> no results</mat-option>
+      <mat-option *ngIf="isLoadingResults" class="loading-option">
+        <mat-spinner diameter="20"></mat-spinner>
+      </mat-option>
+      <mat-option
+        class="no_data_text"
+        *ngIf="
+          !isLoadingResults &&
+          searchControl.value &&
+          (filteredOptions | async)?.length == 0
+        "
+      >
+        No results found.</mat-option
+      >
       <mat-option
         *ngFor="let option of filteredOptions | async"
-        [value]="option.salesPerson"
+        [value]="option.salesPersonName"
+        (click)="OptionSelected(option)"
       >
         <span [innerHTML]="highlightMatch(option)"></span>
       </mat-option>

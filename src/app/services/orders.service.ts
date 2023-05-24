@@ -30,4 +30,19 @@ export class OrdersService {
   getInvoiceNumbers(): Observable<number[]> {
     return this._http.get<number[]>(this.baseUrl + 'getInvoiceNumbers', {});
   }
+  filterOrders(
+    searchInput: string,
+    agentSearch: boolean,
+    companySearch: boolean,
+    addressSearch: boolean,
+    phoneNumberSearch: boolean
+  ): Observable<any[]> {
+    let params = new HttpParams().set('searchInput', searchInput);
+    if (agentSearch) params = params.append('agentSearch', agentSearch);
+    if (companySearch) params = params.append('companySearch', companySearch);
+    if (addressSearch) params = params.append('addressSearch', addressSearch);
+    if (phoneNumberSearch)
+      params = params.append('phoneNumberSearch', phoneNumberSearch);
+    return this._http.get<any[]>(this.baseUrl + 'searchOrders', { params });
+  }
 }
