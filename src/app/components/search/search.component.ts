@@ -31,7 +31,6 @@ export class SearchComponent implements OnInit {
   ];
   selectedFilter: string = 'all';
   searchControl = new FormControl();
-  options: any[] = [];
   isLoadingResults: boolean = false;
   filteredOptions: Observable<any[]>;
   hasResults: boolean = false;
@@ -44,7 +43,7 @@ export class SearchComponent implements OnInit {
   ) {
     this.filteredOptions = this.searchControl.valueChanges.pipe(
       startWith(''),
-      map((value) => this.filterOptions(value))
+      map((value) => [])
     );
   }
   ngOnInit(): void {
@@ -72,31 +71,6 @@ export class SearchComponent implements OnInit {
       this.selectedFilter === 'addressSearch',
       this.selectedFilter === 'phoneNumberSearch'
     );
-  }
-
-  filterOptions(value: string): any[] {
-    const filterValue = value.toLowerCase();
-    const selectedFilter = this.selectedFilter;
-
-    return this.options.filter((option) => {
-      if (selectedFilter === 'all') {
-        return (
-          option.salesPerson.toLowerCase().includes(filterValue) ||
-          option.companyName.toLowerCase().includes(filterValue) ||
-          option.address.toString().includes(filterValue) ||
-          option.phoneNumber.toString().includes(filterValue)
-        );
-      } else if (selectedFilter === 'salesPersonSearch') {
-        return option.salesPerson.toLowerCase().includes(filterValue);
-      } else if (selectedFilter === 'companyNameSearch') {
-        return option.companyName.toLowerCase().includes(filterValue);
-      } else if (selectedFilter === 'addressSearch') {
-        return option.address.toLowerCase().includes(filterValue);
-      } else if (selectedFilter === 'phoneNumberSearch') {
-        return option.phoneNumber.toString().includes(filterValue);
-      }
-      return false;
-    });
   }
 
   selectFilter(filterValue: any): void {
