@@ -38,7 +38,24 @@
         [value]="option.salesPersonName"
         (click)="OptionSelected(option)"
       >
-        <span [innerHTML]="highlightMatch(option)"></span>
+        <!-- <span [innerHTML]="highlightMatch(option)"></span> -->
+        <div class="main_block">
+          <p class="main_title">{{ option.salesPersonName }}</p>
+          <div class="secondary_title">
+            <p>
+              <span class="custom-icon">&#x2713;</span>{{ option.companyName }}
+            </p>
+            <p>
+              <span class="custom-icon">&#x2713;</span>{{ option.address }},
+              {{ option.address2 }}
+            </p>
+            <p>
+              <span class="custom-icon">&#x2713;</span>+91-{{
+                option.phoneNumber
+              }}
+            </p>
+          </div>
+        </div>
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
