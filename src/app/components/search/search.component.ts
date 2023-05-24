@@ -1,14 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
-import { Observable, startWith, map } from 'rxjs';
-
-interface Order {
-  salesPerson: string;
-  companyName: string;
-  address: string;
-  phoneNumber: number;
-}
+import {
+  Observable,
+  startWith,
+  map,
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+  tap,
+  delay,
+} from 'rxjs';
+import { Orders } from 'src/app/model/orders';
+import { OrdersService } from 'src/app/services/orders.service';
 
 @Component({
   selector: 'app-search',
@@ -16,11 +22,6 @@ interface Order {
   styleUrls: ['./search.component.css'],
 })
 export class SearchComponent implements OnInit {
-  ngOnInit(): void {
-    this.filteredOptions.subscribe((options) => {
-      this.hasResults = options.length > 0;
-    });
-  }
   filters: any[] = [
     { label: 'All', value: 'all', icon: 'apps' },
     { label: 'Agent', value: 'salesPersonSearch', icon: 'person' },
@@ -30,33 +31,50 @@ export class SearchComponent implements OnInit {
   ];
   selectedFilter: string = 'all';
   searchControl = new FormControl();
-  options: Order[] = [
-    {
-      salesPerson: 'Dilip',
-      companyName: 'Google',
-      address: 'California, USA',
-      phoneNumber: 9160690173,
-    },
-    {
-      salesPerson: 'Swathi',
-      companyName: 'IBM',
-      address: 'Ohio, USA',
-      phoneNumber: 9703874786,
-    },
-  ];
+  options: any[] = [];
   isLoadingResults: boolean = false;
-  filteredOptions: Observable<Order[]>;
-  hasResults: boolean = true;
+  filteredOptions: Observable<any[]>;
+  hasResults: boolean = false;
   searchLabel: string = 'Search';
 
-  constructor() {
+  constructor(
+    private orderService: OrdersService,
+    private router: Router,
+    public dialogRef: MatDialogRef<SearchComponent>
+  ) {
     this.filteredOptions = this.searchControl.valueChanges.pipe(
       startWith(''),
       map((value) => this.filterOptions(value))
     );
   }
+  ngOnInit(): void {
+    this.filteredOptions.subscribe((options) => {
+      this.hasResults = options.length > 0;
+    });
+    this.filteredOptions = this.searchControl.valueChanges.pipe(
+      startWith(''),
+      debounceTime(300), // Delay between user input and API call
+      distinctUntilChanged(), // Only trigger API call if the input has changed
+      tap(() => {
+        this.isLoadingResults = true;
+      }),
+      switchMap((value) => this.searchBackend(value).pipe(delay(1000))), // Invoke the backend service
+      tap(() => {
+        this.isLoadingResults = false;
+      })
+    );
+  }
+  searchBackend(value: string): Observable<Orders[]> {
+    return this.orderService.filterOrders(
+      value,
+      this.selectedFilter === 'salesPersonSearch',
+      this.selectedFilter === 'companyNameSearch',
+      this.selectedFilter === 'addressSearch',
+      this.selectedFilter === 'phoneNumberSearch'
+    );
+  }
 
-  filterOptions(value: string): Order[] {
+  filterOptions(value: string): any[] {
     const filterValue = value.toLowerCase();
     const selectedFilter = this.selectedFilter;
 
@@ -84,13 +102,9 @@ export class SearchComponent implements OnInit {
   selectFilter(filterValue: any): void {
     this.selectedFilter = filterValue.value;
     this.searchLabel = `Search ${filterValue.label}`;
-    this.filteredOptions = this.searchControl.valueChanges.pipe(
-      startWith(''),
-      map((value) => this.filterOptions(value))
-    );
   }
-  highlightMatch(order: Order): string {
-    const value = `${order.salesPerson} | ${order.companyName} | ${order.phoneNumber} | ${order.address} `;
+  highlightMatch(order: any): string {
+    const value = `${order.salesPersonName} | ${order.companyName} | ${order.phoneNumber} | ${order.address}, ${order.address2} `;
     const filterValue = this.searchControl.value
       ? this.searchControl.value.toLowerCase()
       : '';
@@ -100,33 +114,45 @@ export class SearchComponent implements OnInit {
       return value.replace(regex, (match) => `<mark>${match}</mark>`);
     } else if (this.selectedFilter === 'salesPersonSearch') {
       const nameRegex = new RegExp(filterValue, 'gi');
-      const highlightedAgent = order.salesPerson.replace(
+      const highlightedAgent = order.salesPersonName.replace(
         nameRegex,
-        (match) => `<mark>${match}</mark>`
+        (match: any) => `<mark>${match}</mark>`
       );
-      return `${highlightedAgent} | ${order.companyName} | ${order.phoneNumber} | ${order.address}`;
+      return `${highlightedAgent} | ${order.companyName} | ${order.phoneNumber} | ${order.address}, ${order.address2} `;
     } else if (this.selectedFilter === 'companyNameSearch') {
       const deptRegex = new RegExp(filterValue, 'gi');
       const highlightedCompanyName = order.companyName.replace(
         deptRegex,
-        (match) => `<mark>${match}</mark>`
+        (match: any) => `<mark>${match}</mark>`
       );
-      return `${order.salesPerson} | ${highlightedCompanyName} | ${order.phoneNumber} | ${order.address}`;
+      return `${order.salesPersonName} | ${highlightedCompanyName} | ${order.phoneNumber} | ${order.address}, ${order.address2}`;
     } else if (this.selectedFilter === 'addressSearch') {
       const salaryRegex = new RegExp(filterValue, 'gi');
-      const highlightedAddress = order.address.replace(
+      let highlightedAddress = order.address.replace(
         salaryRegex,
-        (match) => `<mark>${match}</mark>`
+        (match: any) => `<mark>${match}</mark>`
       );
-      return `${order.salesPerson} | ${order.companyName} | ${order.phoneNumber} | ${highlightedAddress}`;
+      highlightedAddress +=
+        order.address2 != null
+          ? order.address2.replace(
+              salaryRegex,
+              (match: any) => `<mark>${match}</mark>`
+            )
+          : '';
+      return `${order.salesPersonName} | ${order.companyName} | ${order.phoneNumber} | ${highlightedAddress}`;
     } else if (this.selectedFilter === 'phoneNumberSearch') {
       const salaryRegex = new RegExp(filterValue, 'gi');
       const highlightedPhoneNumber = order.phoneNumber
         .toString()
-        .replace(salaryRegex, (match) => `<mark>${match}</mark>`);
-      return `${order.salesPerson} | ${order.companyName} | ${highlightedPhoneNumber} | ${order.address}`;
+        .replace(salaryRegex, (match: any) => `<mark>${match}</mark>`);
+      return `${order.salesPersonName} | ${order.companyName} | ${highlightedPhoneNumber} | ${order.address}, ${order.address2}`;
     }
 
     return value;
+  }
+  OptionSelected(value: any) {
+    console.log(value);
+    this.dialogRef.close();
+    this.router.navigateByUrl('/update-order', { state: value });
   }
 }
