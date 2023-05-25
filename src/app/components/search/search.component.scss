@@ -1,6 +1,27 @@
 mat-form-field {
   width: 300px;
 }
+/* Track */
+::-webkit-scrollbar {
+  // width: 1px; /* Adjust the width of the scrollbar */
+  height: 3px;
+  border-radius: 1px;
+}
+
+/* Track (background) */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Adjust the background color of the track */
+}
+
+/* Handle (thumb) */
+::-webkit-scrollbar-thumb {
+  background: #c1bdbd; /* Adjust the color of the handle */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Adjust the color of the handle when hovered */
+}
 
 .chip-filter {
   background-color: #e0e0e0;
@@ -37,8 +58,18 @@ mat-form-field {
 
 .search-input {
   flex: 1;
+  // display: flex !important;
+}
+.search-input1 {
+  // flex: 1;
+  display: flex !important;
 }
 .search-icons {
+  font-size: 1.4em;
+  padding-top: 6px;
+  padding-right: 2px;
+}
+.selected-search-icons {
   font-size: 1.4em;
   padding-top: 6px;
   padding-right: 2px;
@@ -58,6 +89,8 @@ mat-form-field {
   height: 3em;
   border-radius: 0.7em 0em 0em 0.7em;
   display: flex;
+  overflow-x: overlay;
+  overflow-y: hidden;
 }
 @media (max-width: 400px) {
   .main_block {
@@ -72,13 +105,13 @@ mat-form-field {
   font-size: 2em;
   padding-right: 1vh;
   font-weight: 300;
-  border-right: solid 2px #c1bdbd;
+  border-right: dotted 2px #c1bdbd;
   height: fit-content;
 }
 .secondary_title {
   font-size: 75%;
-  line-height: 2px;
-  padding: 10px 14px;
+  line-height: 5px;
+  padding: 4px 14px;
 }
 .secondary_title_icon {
   font-size: 14px !important;
@@ -87,4 +120,24 @@ mat-form-field {
 .custom-icon {
   font-family: "FontName"; /* Replace with the name of the custom font */
   margin-right: 5px; /* Adjust spacing as needed */
+}
+::ng-deep .mat-autocomplete-panel.mat-autocomplete-visible {
+  visibility: visible;
+  /* padding: 0px 0px; */
+  margin: 0px -24px;
+  width: 43em !important;
+}
+// .custom-size {
+//   visibility: visible;
+//   /* padding: 0px 0px; */
+//   margin: 0px -24px;
+//   width: 43em !important;
+// }
+
+.mat-standard-chip.mat-chip-with-trailing-icon {
+  margin-right: 0.5em;
+  background-color: #673ab7;
+  font-weight: 500;
+  white-space: nowrap;
+  color: #fff;
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -19,7 +19,7 @@ import { OrdersService } from 'src/app/services/orders.service';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css'],
+  styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent implements OnInit {
   filters: any[] = [
@@ -29,7 +29,10 @@ export class SearchComponent implements OnInit {
     { label: 'Address', value: 'addressSearch', icon: 'alternate_email' },
     { label: 'Phone No.', value: 'phoneNumberSearch', icon: 'phone' },
   ];
-  selectedFilter: string = 'all';
+  @ViewChild('filterInput')
+  filterInput!: ElementRef;
+  selectedFilter: string = '';
+  selectedFilterList: string[] = [];
   searchControl = new FormControl();
   isLoadingResults: boolean = false;
   filteredOptions: Observable<any[]>;
@@ -75,7 +78,17 @@ export class SearchComponent implements OnInit {
 
   selectFilter(filterValue: any): void {
     this.selectedFilter = filterValue.value;
+    this.selectedFilterList.push(filterValue.label);
+    this.filterInput.nativeElement.focus();
     this.searchLabel = `Search ${filterValue.label}`;
+  }
+  highlightMatch1(val: string): string {
+    const value = val;
+    const filterValue = this.searchControl.value
+      ? this.searchControl.value.toLowerCase()
+      : '';
+    const regex = new RegExp(filterValue, 'gi');
+    return value.replace(regex, (match) => `<mark>${match}</mark>`);
   }
   highlightMatch(order: any): string {
     const value = `${order.salesPersonName} | ${order.companyName} | ${order.phoneNumber} | ${order.address}, ${order.address2} `;
@@ -128,5 +141,9 @@ export class SearchComponent implements OnInit {
     console.log(value);
     this.dialogRef.close();
     this.router.navigateByUrl('/update-order', { state: value });
+  }
+  removeFilter() {
+    this.selectedFilterList = [];
+    this.selectedFilter = '';
   }
 }
