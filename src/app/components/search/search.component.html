@@ -1,5 +1,5 @@
 <div class="search-container">
-  <mat-chip-list>
+  <mat-chip-list *ngIf="!selectedFilter">
     <mat-chip
       [selected]="selectedFilter === filterOption.value"
       (click)="selectFilter(filterOption)"
@@ -11,14 +11,28 @@
     </mat-chip>
   </mat-chip-list>
   <mat-form-field class="search-input">
-    <input
-      type="text"
-      [placeholder]="searchLabel"
-      matInput
-      [formControl]="searchControl"
-      [matAutocomplete]="auto"
-    />
-    <mat-icon matSuffix>search</mat-icon>
+    <div class="search-input1">
+      <!-- <mat-chip [removable]="true">Hi</mat-chip> -->
+      <mat-chip
+        *ngFor="let filter of selectedFilterList"
+        (removed)="removeFilter()"
+      >
+        <mat-icon class="selected-search-icons">done</mat-icon>
+        {{ filter }}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+      <input
+        #filterInput
+        type="text"
+        [placeholder]="searchLabel"
+        matInput
+        [formControl]="searchControl"
+        [matAutocomplete]="auto"
+      />
+      <mat-icon matSuffix>search</mat-icon>
+    </div>
     <mat-autocomplete #auto="matAutocomplete">
       <mat-option *ngIf="isLoadingResults" class="loading-option">
         <mat-spinner diameter="20"></mat-spinner>
@@ -40,17 +54,23 @@
       >
         <!-- <span [innerHTML]="highlightMatch(option)"></span> -->
         <div class="main_block">
-          <p class="main_title">{{ option.salesPersonName }}</p>
+          <p
+            class="main_title"
+            [innerHTML]="highlightMatch1(option.salesPersonName)"
+          ></p>
           <div class="secondary_title">
             <p>
-              <span class="custom-icon">&#x2713;</span>{{ option.companyName }}
+              <span class="custom-icon">&#x2713;</span
+              ><b
+                ><u>{{ option.companyName }}</u>
+              </b>
             </p>
             <p>
-              <span class="custom-icon">&#x2713;</span>{{ option.address }},
+              <span class="custom-icon">&#64;</span>{{ option.address }},
               {{ option.address2 }}
             </p>
             <p>
-              <span class="custom-icon">&#x2713;</span>+91-{{
+              <span class="custom-icon">&#9742;</span>+91-{{
                 option.phoneNumber
               }}
             </p>
