@@ -85,7 +85,7 @@ mat-form-field {
 }
 .main_block {
   padding: 1px;
-  border: solid 3px #c1bdbd;
+  border: solid 2px #c1bdbd;
   height: 3em;
   border-radius: 0.7em 0em 0em 0.7em;
   display: flex;
@@ -140,4 +140,7 @@ mat-form-field {
   font-weight: 500;
   white-space: nowrap;
   color: #fff;
+}
+.mat-icon {
+  overflow: inherit !important;
 }

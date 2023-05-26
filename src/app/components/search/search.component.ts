@@ -88,8 +88,12 @@ export class SearchComponent implements OnInit {
       ? this.searchControl.value.toLowerCase()
       : '';
     const regex = new RegExp(filterValue, 'gi');
-    return value.replace(regex, (match) => `<mark>${match}</mark>`);
+    return value.replace(
+      regex,
+      (match) => `<span class="mark-class">${match}</span>`
+    );
   }
+  //TODO: to be removed in future.
   highlightMatch(order: any): string {
     const value = `${order.salesPersonName} | ${order.companyName} | ${order.phoneNumber} | ${order.address}, ${order.address2} `;
     const filterValue = this.searchControl.value
