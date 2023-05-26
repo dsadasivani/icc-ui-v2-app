@@ -56,13 +56,29 @@
         <div class="main_block">
           <p
             class="main_title"
-            [innerHTML]="highlightMatch1(option.salesPersonName, false)"
+            [innerHTML]="
+              highlightMatch1(
+                option.salesPersonName,
+                selectedFilter == 'salesPersonSearch' ||
+                  selectedFilter == 'all' ||
+                  selectedFilter == '',
+                false
+              )
+            "
           ></p>
           <div class="secondary_title">
             <p>
               <b
                 ><u
-                  [innerHTML]="highlightMatch1(option.companyName, false)"
+                  [innerHTML]="
+                    highlightMatch1(
+                      option.companyName,
+                      selectedFilter == 'companyNameSearch' ||
+                        selectedFilter == 'all' ||
+                        selectedFilter == '',
+                      false
+                    )
+                  "
                 ></u>
               </b>
             </p>
@@ -70,11 +86,24 @@
               [innerHTML]="
                 highlightMatch1(
                   option.address + ', ' + option.address2,
+                  selectedFilter == 'addressSearch' ||
+                    selectedFilter == 'all' ||
+                    selectedFilter == '',
                   '&#64;'
                 )
               "
             ></p>
-            <p [innerHTML]="highlightMatch1(option.phoneNumber, '&#9742;')"></p>
+            <p
+              [innerHTML]="
+                highlightMatch1(
+                  option.phoneNumber,
+                  selectedFilter == 'phoneNumberSearch' ||
+                    selectedFilter == 'all' ||
+                    selectedFilter == '',
+                  '&#9742;'
+                )
+              "
+            ></p>
           </div>
         </div>
       </mat-option>

@@ -56,11 +56,11 @@ export class SearchComponent implements OnInit {
     this.filteredOptions = this.searchControl.valueChanges.pipe(
       startWith(''),
       debounceTime(300), // Delay between user input and API call
-      distinctUntilChanged(), // Only trigger API call if the input has changed
+      // distinctUntilChanged(), // Only trigger API call if the input has changed
       tap(() => {
         this.isLoadingResults = true;
       }),
-      switchMap((value) => this.searchBackend(value).pipe(delay(1000))), // Invoke the backend service
+      switchMap((value) => this.searchBackend(value)), // Invoke the backend service
       tap(() => {
         this.isLoadingResults = false;
       })
@@ -77,30 +77,39 @@ export class SearchComponent implements OnInit {
   }
 
   selectFilter(filterValue: any): void {
+    this.searchControl.setValue(this.searchControl.value);
     this.selectedFilter = filterValue.value;
     this.selectedFilterList.push(filterValue.label);
     this.filterInput.nativeElement.focus();
     this.searchLabel = `Search ${filterValue.label}`;
   }
-  highlightMatch1(val: string, addIcon: string | boolean): string {
+  highlightMatch1(
+    val: string,
+    applyHighlight: boolean,
+    addIcon: string | boolean
+  ): string {
     const value = val;
-    const filterValue = this.searchControl.value
-      ? this.searchControl.value.toLowerCase()
-      : '';
-    const regex = new RegExp(filterValue, 'gi');
-    if (!addIcon) {
-      return value.replace(
-        regex,
-        (match) => `<span class="mark-class">${match}</span>`
+    if (applyHighlight) {
+      const filterValue = this.searchControl.value
+        ? this.searchControl.value.toLowerCase()
+        : '';
+      const regex = new RegExp(filterValue, 'gi');
+      if (!addIcon) {
+        return value.replace(
+          regex,
+          (match) => `<span class="mark-class">${match}</span>`
+        );
+      }
+      return (
+        `<span class="custom-icon">${addIcon}</span>` +
+        value.replace(
+          regex,
+          (match) => `<span class="mark-class">${match}</span>`
+        )
       );
+    } else {
+      return value;
     }
-    return (
-      `<span class="custom-icon">${addIcon}</span>` +
-      value.replace(
-        regex,
-        (match) => `<span class="mark-class">${match}</span>`
-      )
-    );
   }
   //TODO: to be removed in future.
   highlightMatch(order: any): string {
@@ -158,5 +167,6 @@ export class SearchComponent implements OnInit {
   removeFilter() {
     this.selectedFilterList = [];
     this.selectedFilter = '';
+    this.searchControl.setValue(this.searchControl.value);
   }
 }
