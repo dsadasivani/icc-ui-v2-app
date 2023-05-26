@@ -85,9 +85,9 @@ mat-form-field {
 }
 .main_block {
   padding: 1px;
-  border: solid 3px #c1bdbd;
+  border: solid 2px #c1bdbd;
   height: 3em;
-  border-radius: 0.7em 0em 0em 0.7em;
+  border-radius: 0.3em;
   display: flex;
   overflow-x: overlay;
   overflow-y: hidden;
@@ -117,10 +117,10 @@ mat-form-field {
   font-size: 14px !important;
   height: 10px !important;
 }
-.custom-icon {
-  font-family: "FontName"; /* Replace with the name of the custom font */
-  margin-right: 5px; /* Adjust spacing as needed */
-}
+// .custom-icon {
+//   font-family: "FontName"; /* Replace with the name of the custom font */
+//   margin-right: 5px; /* Adjust spacing as needed */
+// }
 ::ng-deep .mat-autocomplete-panel.mat-autocomplete-visible {
   visibility: visible;
   /* padding: 0px 0px; */
@@ -140,4 +140,7 @@ mat-form-field {
   font-weight: 500;
   white-space: nowrap;
   color: #fff;
+}
+.mat-icon {
+  overflow: inherit !important;
 }
