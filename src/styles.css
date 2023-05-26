@@ -8,3 +8,11 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+span.mark-class {
+  background: lightsteelblue;
+  border-radius: 1vh;
+}
+.custom-icon {
+  font-family: "FontName"; /* Replace with the name of the custom font */
+  margin-right: 5px; /* Adjust spacing as needed */
+}
