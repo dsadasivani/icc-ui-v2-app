@@ -11,5 +11,8 @@ body {
 span.mark-class {
   background: lightsteelblue;
   border-radius: 1vh;
-  font-weight: 400;
+}
+.custom-icon {
+  font-family: "FontName"; /* Replace with the name of the custom font */
+  margin-right: 5px; /* Adjust spacing as needed */
 }

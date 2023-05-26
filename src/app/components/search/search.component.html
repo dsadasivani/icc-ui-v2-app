@@ -56,21 +56,25 @@
         <div class="main_block">
           <p
             class="main_title"
-            [innerHTML]="highlightMatch1(option.salesPersonName)"
+            [innerHTML]="highlightMatch1(option.salesPersonName, false)"
           ></p>
           <div class="secondary_title">
             <p>
-              <b><u [innerHTML]="highlightMatch1(option.companyName)"></u> </b>
+              <b
+                ><u
+                  [innerHTML]="highlightMatch1(option.companyName, false)"
+                ></u>
+              </b>
             </p>
-            <p>
-              <span class="custom-icon">&#64;</span>{{ option.address }},
-              {{ option.address2 }}
-            </p>
-            <p>
-              <span class="custom-icon">&#9742;</span>+91-{{
-                option.phoneNumber
-              }}
-            </p>
+            <p
+              [innerHTML]="
+                highlightMatch1(
+                  option.address + ', ' + option.address2,
+                  '&#64;'
+                )
+              "
+            ></p>
+            <p [innerHTML]="highlightMatch1(option.phoneNumber, '&#9742;')"></p>
           </div>
         </div>
       </mat-option>

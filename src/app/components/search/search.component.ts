@@ -82,15 +82,24 @@ export class SearchComponent implements OnInit {
     this.filterInput.nativeElement.focus();
     this.searchLabel = `Search ${filterValue.label}`;
   }
-  highlightMatch1(val: string): string {
+  highlightMatch1(val: string, addIcon: string | boolean): string {
     const value = val;
     const filterValue = this.searchControl.value
       ? this.searchControl.value.toLowerCase()
       : '';
     const regex = new RegExp(filterValue, 'gi');
-    return value.replace(
-      regex,
-      (match) => `<span class="mark-class">${match}</span>`
+    if (!addIcon) {
+      return value.replace(
+        regex,
+        (match) => `<span class="mark-class">${match}</span>`
+      );
+    }
+    return (
+      `<span class="custom-icon">${addIcon}</span>` +
+      value.replace(
+        regex,
+        (match) => `<span class="mark-class">${match}</span>`
+      )
     );
   }
   //TODO: to be removed in future.
