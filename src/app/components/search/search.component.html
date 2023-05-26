@@ -60,9 +60,7 @@
           ></p>
           <div class="secondary_title">
             <p>
-              <b
-                ><u>{{ option.companyName }}</u>
-              </b>
+              <b><u [innerHTML]="highlightMatch1(option.companyName)"></u> </b>
             </p>
             <p>
               <span class="custom-icon">&#64;</span>{{ option.address }},
