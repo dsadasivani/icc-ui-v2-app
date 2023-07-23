@@ -1,1 +1,50 @@
-<p>login works!</p>
+<div class="content">
+  <div class="toolbar mat-elevation-z8">
+    <mat-toolbar>
+      <div class="box1">
+        <a [routerLink]="['/about']" class="title"> ICC</a>
+      </div>
+      <div class="box2">
+        <a [routerLink]="['/about']"><mat-icon>home</mat-icon></a>
+      </div>
+    </mat-toolbar>
+  </div>
+  <div class="main">
+    <mat-card>
+      <mat-card-content>
+        <form (ngSubmit)="onSubmit()">
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="Username"
+              [(ngModel)]="username"
+              name="username"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="Password"
+              [(ngModel)]="password"
+              name="password"
+              [type]="hidePassword ? 'password' : 'text'"
+              required
+            />
+            <button
+              mat-icon-button
+              type="button"
+              matSuffix
+              (click)="togglePasswordVisibility()"
+            >
+              <mat-icon>{{
+                hidePassword ? "visibility_off" : "visibility"
+              }}</mat-icon>
+            </button>
+          </mat-form-field>
+          <button mat-raised-button type="submit" color="primary">Login</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

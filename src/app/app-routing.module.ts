@@ -4,10 +4,19 @@ import { AboutComponent } from './components/about/about.component';
 import { CreateOrderComponent } from './components/create-order/create-order.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HomeComponent } from './components/home/home.component';
-import { ProductsComponent } from './components/products/products.component';
 import { UnderProgressComponent } from './components/under-progress/under-progress.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { RegisterComponent } from './components/auth/register/register.component';
 
 const routes: Routes = [
+  {
+    path: 'auth/login',
+    component: LoginComponent,
+  },
+  {
+    path: 'auth/register',
+    component: RegisterComponent,
+  },
   {
     path: '',
     component: HomeComponent,

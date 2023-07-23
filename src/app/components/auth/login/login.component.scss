@@ -1,0 +1,61 @@
+mat-card {
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 100px;
+  padding: 20px;
+
+  .mat-card-title {
+    font-size: 24px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    mat-form-field {
+      width: 100%;
+      margin-bottom: 20px;
+      // display: none !important;
+    }
+
+    button {
+      width: 100%;
+    }
+  }
+}
+.mat-form-field {
+  display: block;
+}
+.main {
+  overflow-y: hidden;
+  // background-color: #dee5ec;
+  padding: 20px 20px 20px 20px;
+  height: 100%;
+  min-height: calc(100vh - 105px);
+}
+mat-toolbar {
+  background-color: #c7cbd4;
+  mat-icon {
+    margin-left: 15px;
+    color: gray;
+  }
+  justify-content: space-between;
+  .box2 {
+    margin-top: 15px;
+  }
+  .box1 {
+    mat-icon {
+      margin-top: 15px;
+      margin-left: 10px;
+    }
+    .title {
+      color: gray;
+      font-family: fantasy;
+      font-size: 2rem;
+      text-shadow: 1px 1px 3px;
+      letter-spacing: 2px;
+      text-decoration: none;
+    }
+  }
+}

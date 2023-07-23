@@ -25,7 +25,10 @@
               >search</mat-icon
             >
             <a [routerLink]="['/about']"><mat-icon>home</mat-icon></a>
-            <mat-icon>login</mat-icon>
+            <a [routerLink]="['/auth/login']"><mat-icon>login</mat-icon></a>
+            <a [routerLink]="['/auth/register']"
+              ><mat-icon>person_add</mat-icon></a
+            >
           </div>
         </mat-toolbar>
       </div>
