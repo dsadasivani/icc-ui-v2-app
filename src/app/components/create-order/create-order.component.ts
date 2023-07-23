@@ -134,7 +134,9 @@ export class CreateOrderComponent implements OnInit {
   }
 
   nextInvoiceNumber(): number {
-    return existingInvoiceNumbers[0] + 1;
+    return existingInvoiceNumbers.length > 0
+      ? existingInvoiceNumbers[0] + 1
+      : 1;
   }
   openDialog() {
     this.orderObject = Object.assign(
