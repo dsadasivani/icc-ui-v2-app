@@ -45,6 +45,8 @@ import { InventoryComponent } from './components/inventory/inventory.component';
 import { SearchComponent } from './components/search/search.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { LoginComponent } from './components/auth/login/login.component';
+import { RegisterComponent } from './components/auth/register/register.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +61,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     OrderDetailsDialogComponent,
     InventoryComponent,
     SearchComponent,
+    LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
