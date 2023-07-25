@@ -3,8 +3,11 @@
   left: 0;
   bottom: 0;
   width: 100%; /* Set the width to 100% to cover the full width of the viewport */
-  padding: 1em; /* Example padding for the bottom div */
+  padding: 3vh; /* Example padding for the bottom div */
   box-sizing: border-box; /* Include padding in the width calculation */
   text-align: center;
-  color: #c7cbd4;
+  color: #a2a6ae;
+  background-color: #dee5ec;
+  font-weight: 300;
+  text-decoration-line: underline;
 }
