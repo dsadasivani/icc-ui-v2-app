@@ -34,10 +34,12 @@ const routes: Routes = [
       {
         path: 'products',
         component: UnderProgressComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: 'create-order',
         component: CreateOrderComponent,
+        canActivate: [AuthGuard],
         data: {
           page: 'CREATE',
         },
@@ -45,6 +47,7 @@ const routes: Routes = [
       {
         path: 'update-order',
         component: CreateOrderComponent,
+        canActivate: [AuthGuard],
         data: {
           page: 'UPDATE',
         },
@@ -52,6 +55,7 @@ const routes: Routes = [
       {
         path: 'inventory',
         component: UnderProgressComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: '',
