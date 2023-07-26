@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://api.indoconstructionchemicals.co.in/',
+  baseUrl: 'https://api.indoconstructionchemicals.co.in/api/v1/',
 };

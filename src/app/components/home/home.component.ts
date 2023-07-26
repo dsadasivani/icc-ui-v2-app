@@ -6,6 +6,7 @@ import { delay, filter } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SearchComponent } from '../search/search.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 @UntilDestroy()
 @Component({
@@ -32,7 +33,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private observer: BreakpointObserver,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -88,5 +90,9 @@ export class HomeComponent implements OnInit {
       this.sidenav.mode = 'over';
       this.sidenav.close();
     }
+  }
+  logout() {
+    this.authService.logout();
+    this.router.navigateByUrl('/auth/login');
   }
 }
