@@ -16,6 +16,7 @@
       <span>About Us</span>
     </button>
     <button
+      *ngIf="isLoggedIn()"
       mat-button
       class="menu-button"
       [routerLink]="['/dashboard']"
@@ -34,6 +35,7 @@
       <span>Products</span>
     </button>
     <button
+      *ngIf="isLoggedIn()"
       mat-button
       class="menu-button"
       [routerLink]="['/create-order']"
@@ -43,6 +45,7 @@
       <span>Order</span>
     </button>
     <button
+      *ngIf="isLoggedIn()"
       mat-button
       class="menu-button"
       [routerLink]="['/inventory']"
