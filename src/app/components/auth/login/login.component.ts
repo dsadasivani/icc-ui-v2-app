@@ -41,4 +41,7 @@ export class LoginComponent implements OnInit {
   togglePasswordVisibility() {
     this.hidePassword = !this.hidePassword;
   }
+  navigateToRegisterScreen() {
+    this.router.navigateByUrl('/auth/register');
+  }
 }

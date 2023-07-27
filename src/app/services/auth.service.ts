@@ -43,6 +43,13 @@ export class AuthService {
     return Date.now() > expirationTime;
   }
 
+  extractName(): string {
+    const token = this.getToken();
+    if (!token) return 'Guest';
+    const tokenData = JSON.parse(atob(token.split('.')[1]));
+    return tokenData.firstName + ', ' + tokenData.lastName;
+  }
+
   isLoggedIn(): boolean {
     return !!this.getToken() && !this.isTokenExpired();
   }

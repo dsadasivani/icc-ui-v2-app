@@ -64,3 +64,13 @@ mat-toolbar {
 .password-icon {
   font-size: 23px !important;
 }
+.buttons {
+  display: flex;
+  width: 80%;
+}
+.mat-raised-button {
+  margin: 0px 1em;
+}
+.mat-stroked-button {
+  text-decoration: underline;
+}

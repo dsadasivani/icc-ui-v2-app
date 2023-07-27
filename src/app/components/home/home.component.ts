@@ -95,4 +95,10 @@ export class HomeComponent implements OnInit {
     this.authService.logout();
     this.router.navigateByUrl('/auth/login');
   }
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+  getName(): string {
+    return this.authService.extractName();
+  }
 }

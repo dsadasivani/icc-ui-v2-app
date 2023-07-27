@@ -18,16 +18,31 @@
             <!-- <app-search></app-search> -->
             <mat-icon
               matTooltip="Press 'Ctrl + F' to launch"
-              *ngIf="!isSearchDialogOpen"
+              *ngIf="!isSearchDialogOpen && isLoggedIn()"
               [class.blur-background]="isSearchDialogOpen"
               [class.show]="isSearchDialogOpen"
               (click)="openSearchDialog()"
               >search</mat-icon
             >
-            <a [routerLink]="['/about']"><mat-icon>home</mat-icon></a>
-            <a [routerLink]="['/auth/login']"><mat-icon>login</mat-icon></a>
-            <a (click)="logout()"><mat-icon>logout</mat-icon></a>
-            <a [routerLink]="['/auth/register']"
+            <button *ngIf="!mobileHeader" mat-button>
+              {{ getName() }}
+            </button>
+            <a title="Home" [routerLink]="['/about']"
+              ><mat-icon>home</mat-icon></a
+            >
+            <a
+              title="Login"
+              *ngIf="!isLoggedIn()"
+              [routerLink]="['/auth/login']"
+              ><mat-icon>login</mat-icon></a
+            >
+            <a title="Logout" *ngIf="isLoggedIn()" (click)="logout()"
+              ><mat-icon>logout</mat-icon></a
+            >
+            <a
+              title="Register"
+              *ngIf="!isLoggedIn()"
+              [routerLink]="['/auth/register']"
               ><mat-icon>person_add</mat-icon></a
             >
           </div>

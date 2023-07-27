@@ -41,12 +41,21 @@ mat-toolbar {
 mat-card {
   max-width: 400px;
   margin: 0 auto;
-  margin-top: 70px;
+  margin-top: 2em;
   padding: 20px;
 
   .mat-card-title {
-    font-size: 24px;
+    font-size: 21px;
     color: #878a90;
+    background-color: #dee5ec;
+    padding: 6px;
+    border-radius: 12px;
+    padding-right: 10px;
+    letter-spacing: 2px;
+    font-weight: 300;
+  }
+  mat-card-header.mat-card-header {
+    justify-content: center;
   }
 
   form {
@@ -66,4 +75,9 @@ mat-card {
 }
 .mat-form-field {
   display: block;
+}
+.subtext {
+  padding: 1em;
+  color: #878a90;
+  font-weight: 300;
 }
