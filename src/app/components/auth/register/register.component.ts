@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
@@ -17,31 +18,34 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  firstName: string = '';
-  lastName: string = '';
-  email: string = '';
-  password: string = '';
   hidePassword: boolean = true;
 
+  registerForm = new FormGroup({
+    firstName: new FormControl('', Validators.required),
+    lastName: new FormControl(''),
+    email: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
+  });
+
   onSubmit() {
-    const payload = {
-      firstName: this.firstName,
-      lastName: this.lastName,
-      email: this.email,
-      password: this.password,
-    };
-    this.authService.registerUser(payload).subscribe({
-      next: (result: any) => {
-        this.router.navigateByUrl('/dashboard');
-      },
-      error: (error: any) => {
-        console.log('error -> ', error);
-        this._snackBar.open('Error while creating user', 'Dismiss', {
-          duration: 3000,
-          panelClass: 'error-snackbar',
-        });
-      },
-    });
+    if (this.registerForm.valid) {
+      this.authService.registerUser(this.registerForm.value).subscribe({
+        next: (result: any) => {
+          this._snackBar.open('User account created successfully.', 'Dismiss', {
+            duration: 3000,
+          });
+          this.router.navigateByUrl('/dashboard');
+        },
+        error: (error: any) => {
+          console.log('error -> ', error);
+          this._snackBar.open('Error while creating user', 'Dismiss', {
+            duration: 3000,
+          });
+        },
+      });
+    } else {
+      this.registerForm.markAllAsTouched();
+    }
   }
 
   togglePasswordVisibility() {

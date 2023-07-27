@@ -12,21 +12,31 @@
   <div class="main">
     <mat-card>
       <mat-card-content>
-        <form (ngSubmit)="onSubmit()">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <mat-form-field>
             <input
               matInput
+              id="email"
+              formControlName="email"
               placeholder="Username"
-              [(ngModel)]="username"
-              name="username"
+              name="email"
               required
             />
+            <mat-error
+              *ngIf="
+                loginForm.get('email')?.invalid &&
+                loginForm.get('email')?.touched
+              "
+            >
+              Username is required.
+            </mat-error>
           </mat-form-field>
           <mat-form-field>
             <input
               matInput
+              id="password"
+              formControlName="password"
               placeholder="Password"
-              [(ngModel)]="password"
               name="password"
               [type]="hidePassword ? 'password' : 'text'"
               required
@@ -41,6 +51,14 @@
                 hidePassword ? "visibility_off" : "visibility"
               }}</mat-icon>
             </button>
+            <mat-error
+              *ngIf="
+                loginForm.get('password')?.invalid &&
+                loginForm.get('password')?.touched
+              "
+            >
+              Password is required.
+            </mat-error>
           </mat-form-field>
           <div class="buttons">
             <button mat-raised-button type="submit" color="primary">

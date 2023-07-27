@@ -18,10 +18,9 @@ export class AuthService {
       .pipe(tap((response) => this.storeToken(response.token)));
   }
 
-  login(username: string, password: string): Observable<any> {
-    const loginData = { email: username, password: password };
+  login(payload: any): Observable<any> {
     return this._http
-      .post<any>(`${this.baseUrl}auth/authenticate`, loginData)
+      .post<any>(`${this.baseUrl}auth/authenticate`, payload)
       .pipe(tap((response) => this.storeToken(response.token)));
   }
   logout(): void {
