@@ -12,6 +12,12 @@ export class AuthService {
 
   constructor(private _http: HttpClient) {}
 
+  registerUser(payload: any): Observable<any> {
+    return this._http
+      .post<any>(`${this.baseUrl}auth/register`, payload)
+      .pipe(tap((response) => this.storeToken(response.token)));
+  }
+
   login(username: string, password: string): Observable<any> {
     const loginData = { email: username, password: password };
     return this._http

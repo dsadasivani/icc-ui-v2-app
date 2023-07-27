@@ -27,14 +27,10 @@ export class LoginComponent implements OnInit {
       },
       error: (error: any) => {
         console.log('error -> ', error);
-        this._snackBar.open(
-          'Error while fetching Transport details',
-          'Dismiss',
-          {
-            duration: 3000,
-            panelClass: 'error-snackbar',
-          }
-        );
+        this._snackBar.open('Error while logging into account', 'Dismiss', {
+          duration: 3000,
+          panelClass: 'error-snackbar',
+        });
       },
     });
   }
