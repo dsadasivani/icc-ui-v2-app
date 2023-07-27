@@ -61,9 +61,11 @@ mat-toolbar {
 }
 .mat-button {
   vertical-align: super;
-  padding: 1px;
-  margin: 0px 1em;
-  font-size: small;
+  padding: 0px;
+  margin-left: 12px;
+  font-size: 15px;
   text-decoration: underline;
-  font-weight: 300;
+  font-weight: 600;
+  color: #656668;
+  letter-spacing: 1px;
 }

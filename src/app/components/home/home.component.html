@@ -24,7 +24,7 @@
               (click)="openSearchDialog()"
               >search</mat-icon
             >
-            <button *ngIf="!mobileHeader" mat-button>
+            <button *ngIf="!mobileHeader && getName().length > 0" mat-button>
               {{ getName() }}
             </button>
             <a title="Home" [routerLink]="['/about']"

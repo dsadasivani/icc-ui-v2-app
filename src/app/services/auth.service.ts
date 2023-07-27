@@ -51,9 +51,13 @@ export class AuthService {
 
   extractName(): string {
     const token = this.getToken();
-    if (!token) return 'Guest';
+    if (!token) return '';
     const tokenData = JSON.parse(atob(token.split('.')[1]));
-    return tokenData.firstName + ', ' + tokenData.lastName;
+    const lastName =
+      tokenData.lastName != null && tokenData.lastName.length > 0
+        ? ', ' + tokenData.lastName
+        : '';
+    return tokenData.firstName + lastName;
   }
 
   isLoggedIn(): boolean {
