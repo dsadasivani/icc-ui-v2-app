@@ -9,6 +9,19 @@
     <button
       mat-button
       class="menu-button"
+      [routerLink]="['/update-profile']"
+      (click)="toggleNavBar()"
+    >
+      <mat-icon>edit_note</mat-icon>
+      <span>Profile</span>
+    </button>
+  </div>
+
+  <mat-divider></mat-divider>
+  <div class="menu-item">
+    <button
+      mat-button
+      class="menu-button"
       [routerLink]="['/about']"
       (click)="toggleNavBar()"
     >
