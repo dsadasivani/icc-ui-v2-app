@@ -2,7 +2,7 @@
   overflow-y: hidden;
   padding: 20px 20px 20px 20px;
   height: 100%;
-  min-height: calc(100vh - 176px);
+  min-height: calc(100vh - 110px);
   background-color: #dee5ec;
   margin-top: 5px;
 }
@@ -80,4 +80,10 @@ mat-card {
   padding: 1em;
   color: #878a90;
   font-weight: 300;
+}
+input:read-only {
+  color: #878a90;
+}
+.mat-form-field-wrapper {
+  padding-bottom: 1em;
 }

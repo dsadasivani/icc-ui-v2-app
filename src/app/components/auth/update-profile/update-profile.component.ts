@@ -29,6 +29,7 @@ export class UpdateProfileComponent implements OnInit {
     this.profileUpdateForm = new FormGroup({
       firstName: new FormControl(this.userDetails.firstName),
       lastName: new FormControl(this.userDetails.lastName),
+      email: new FormControl(this.userDetails.email),
       password: new FormControl(''),
       confirmPassword: new FormControl(''),
     });

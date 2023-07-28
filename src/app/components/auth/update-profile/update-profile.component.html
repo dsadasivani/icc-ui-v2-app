@@ -39,6 +39,16 @@
           <mat-form-field>
             <input
               matInput
+              id="email"
+              formControlName="email"
+              placeholder="E-Mail"
+              name="email"
+              readonly="true"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <input
+              matInput
               id="password"
               formControlName="password"
               placeholder="New Password"
@@ -80,5 +90,4 @@
       </mat-card-content>
     </mat-card>
   </div>
-  <app-footer></app-footer>
 </div>
