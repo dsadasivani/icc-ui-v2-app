@@ -1,0 +1,83 @@
+.main {
+  overflow-y: hidden;
+  padding: 20px 20px 20px 20px;
+  height: 100%;
+  min-height: calc(100vh - 176px);
+  background-color: #dee5ec;
+  margin-top: 5px;
+}
+mat-toolbar {
+  background-color: #c7cbd4;
+  mat-icon {
+    margin-left: 15px;
+    color: gray;
+  }
+  justify-content: space-between;
+  .box2 {
+    margin-top: 15px;
+  }
+  .box1 {
+    mat-icon {
+      margin-top: 15px;
+      margin-left: 10px;
+    }
+    .title {
+      color: gray;
+      font-family: fantasy;
+      font-size: 2rem;
+      text-shadow: 1px 1px 3px;
+      letter-spacing: 2px;
+      text-decoration: none;
+    }
+  }
+}
+.mat-icon {
+  height: 21px;
+  width: 28px;
+}
+.password-icon {
+  font-size: 23px !important;
+}
+mat-card {
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 2em;
+  padding: 20px;
+
+  .mat-card-title {
+    font-size: 21px;
+    color: #878a90;
+    background-color: #dee5ec;
+    padding: 6px;
+    border-radius: 12px;
+    padding-right: 10px;
+    letter-spacing: 2px;
+    font-weight: 300;
+  }
+  mat-card-header.mat-card-header {
+    justify-content: center;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    mat-form-field {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    button {
+      width: 100%;
+    }
+  }
+}
+.mat-form-field {
+  display: block;
+}
+.subtext {
+  padding: 1em;
+  color: #878a90;
+  font-weight: 300;
+}

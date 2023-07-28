@@ -101,4 +101,7 @@ export class HomeComponent implements OnInit {
   getName(): string {
     return this.authService.extractName();
   }
+  navigateToUpdateProfile() {
+    this.router.navigateByUrl('/update-profile');
+  }
 }

@@ -17,6 +17,11 @@ export class AuthService {
       .post<any>(`${this.baseUrl}auth/register`, payload)
       .pipe(tap((response) => this.storeToken(response.token)));
   }
+  updateProfile(payload: any): Observable<any> {
+    return this._http
+      .post<any>(`${this.baseUrl}profileUpdate`, payload)
+      .pipe(tap((response) => this.storeToken(response.token)));
+  }
 
   login(payload: any): Observable<any> {
     return this._http
@@ -57,6 +62,18 @@ export class AuthService {
         ? ', ' + tokenData.lastName
         : '';
     return tokenData.firstName + lastName;
+  }
+  extractUserDetails(): any {
+    const token = this.getToken();
+    if (!token) return {};
+    const tokenData = JSON.parse(atob(token.split('.')[1]));
+    let userObject = {
+      firstName: tokenData.firstName,
+      lastName: tokenData.lastName,
+      email: tokenData.sub,
+    };
+
+    return userObject;
   }
 
   isLoggedIn(): boolean {

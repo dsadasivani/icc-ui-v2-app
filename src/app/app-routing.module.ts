@@ -8,6 +8,7 @@ import { UnderProgressComponent } from './components/under-progress/under-progre
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { AuthGuard } from './guard/auth.guard';
+import { UpdateProfileComponent } from './components/auth/update-profile/update-profile.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,11 @@ const routes: Routes = [
   {
     path: 'auth/register',
     component: RegisterComponent,
+  },
+  {
+    path: 'update-profile',
+    component: UpdateProfileComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: '',
