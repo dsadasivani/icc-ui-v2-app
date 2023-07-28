@@ -30,14 +30,11 @@ export class LoginComponent implements OnInit {
         next: (result: any) => {
           this.router.navigateByUrl('/dashboard');
         },
-        error: (error: any) => {
-          console.log('error -> ', error);
+        error: (result: any) => {
+          console.log('error -> ', result);
           let msg = 'Error while logging into account';
-          if (
-            error.status == 404 &&
-            error.error.error === 'Invalid Credentials'
-          ) {
-            msg = 'Invalid Username or password';
+          if (result.status == 404) {
+            msg = result.error.errorMsg;
           }
           this._snackBar.open(msg, 'Dismiss', {
             duration: 3000,

@@ -36,9 +36,9 @@ export class RegisterComponent implements OnInit {
           });
           this.router.navigateByUrl('/dashboard');
         },
-        error: (error: any) => {
-          console.log('error -> ', error);
-          this._snackBar.open('Error while creating user', 'Dismiss', {
+        error: (result: any) => {
+          console.log('error -> ', result);
+          this._snackBar.open(result.error.errorMsg, 'Dismiss', {
             duration: 3000,
           });
         },
