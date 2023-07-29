@@ -26,6 +26,14 @@
               placeholder="First Name"
               name="firstName"
             />
+            <mat-error
+              *ngIf="
+                profileUpdateForm.get('firstName')?.invalid &&
+                profileUpdateForm.get('firstName')?.touched
+              "
+            >
+              First name is required.
+            </mat-error>
           </mat-form-field>
           <mat-form-field>
             <input

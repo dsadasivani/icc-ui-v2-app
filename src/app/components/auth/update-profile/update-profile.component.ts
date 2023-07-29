@@ -19,20 +19,23 @@ export class UpdateProfileComponent implements OnInit {
   hidePassword: boolean = true;
 
   ngOnInit(): void {
+    this.userDetails = this.authService.extractUserDetails();
+    this.profileUpdateForm = new FormGroup({
+      firstName: new FormControl(
+        this.userDetails.firstName,
+        Validators.required
+      ),
+      lastName: new FormControl(this.userDetails.lastName),
+      email: new FormControl(this.userDetails.email),
+      password: new FormControl(''),
+      confirmPassword: new FormControl(''),
+    });
     this.profileUpdateForm
       .get('confirmPassword')
       ?.valueChanges.subscribe(() => {
         this.comparePasswords();
         this.profileUpdateForm.updateValueAndValidity();
       });
-    this.userDetails = this.authService.extractUserDetails();
-    this.profileUpdateForm = new FormGroup({
-      firstName: new FormControl(this.userDetails.firstName),
-      lastName: new FormControl(this.userDetails.lastName),
-      email: new FormControl(this.userDetails.email),
-      password: new FormControl(''),
-      confirmPassword: new FormControl(''),
-    });
   }
 
   onSubmit() {
@@ -64,6 +67,8 @@ export class UpdateProfileComponent implements OnInit {
           });
         },
       });
+    } else {
+      this.profileUpdateForm.markAllAsTouched();
     }
   }
 
