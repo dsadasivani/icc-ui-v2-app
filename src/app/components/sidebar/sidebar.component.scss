@@ -47,3 +47,18 @@ p mat-icon {
   font-size: 32px;
   padding: 0 5px 5px 0;
 }
+.avatar {
+  margin-top: 16px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 10px 50px;
+}
+.name {
+  margin-top: 8px;
+  font-weight: 200;
+  color: #c7cbd4;
+  text-align: center;
+  letter-spacing: 1px;
+  text-decoration: underline;
+}

@@ -5,9 +5,10 @@
     <p>Chemicals<mat-icon>roofing</mat-icon></p>
   </div>
   <mat-divider></mat-divider>
-  <div class="menu-item">
+  <div class="menu-item" *ngIf="isLoggedIn()">
+    <img class="avatar mat-elevation-z8" src="assets/img.jpg" />
+    <h4 class="name">Dilip Kumar Patnaik</h4>
     <button
-      *ngIf="isLoggedIn()"
       mat-button
       class="menu-button"
       [routerLink]="['/update-profile']"
