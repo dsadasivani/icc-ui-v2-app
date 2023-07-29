@@ -6,8 +6,17 @@
   </div>
   <mat-divider></mat-divider>
   <div class="menu-item" *ngIf="isLoggedIn()">
-    <img class="avatar mat-elevation-z8" src="assets/img.jpg" />
-    <h4 class="name">Dilip Kumar Patnaik</h4>
+    <div class="avatar-div">
+      <img
+        class="avatar mat-elevation-z8"
+        src="assets/default_user.png"
+        (mouseenter)="showUploadIcon = true"
+        (mouseleave)="showUploadIcon = false"
+      />
+      <mat-icon class="upload-icon" *ngIf="showUploadIcon">upload</mat-icon>
+    </div>
+
+    <h4 class="name">{{ getName() }}</h4>
     <button
       mat-button
       class="menu-button"
