@@ -40,7 +40,6 @@ const routes: Routes = [
       {
         path: 'products',
         component: UnderProgressComponent,
-        canActivate: [AuthGuard],
       },
       {
         path: 'create-order',

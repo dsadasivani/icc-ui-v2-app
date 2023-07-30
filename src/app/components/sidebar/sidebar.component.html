@@ -5,7 +5,7 @@
     <p>Chemicals<mat-icon>roofing</mat-icon></p>
   </div>
   <mat-divider></mat-divider>
-  <div class="menu-item" *ngIf="isLoggedIn()">
+  <div class="menu-item" *ngIf="isLoggedIn(); else defaultAvatar">
     <div class="avatar-div">
       <img
         class="avatar mat-elevation-z8"
@@ -27,7 +27,29 @@
       <span>Profile</span>
     </button>
   </div>
-
+  <ng-template #defaultAvatar>
+    <div class="menu-item">
+      <div class="avatar-div">
+        <img
+          class="avatar-default mat-elevation-z8"
+          src="assets/default_user.png"
+          (mouseenter)="showUploadIcon = true"
+          (mouseleave)="showUploadIcon = false"
+        />
+      </div>
+      <h4 class="name">Guest</h4>
+      <button
+        mat-button
+        class="menu-button"
+        [routerLink]="['/auth/login']"
+        (click)="toggleNavBar()"
+      >
+        <mat-icon>login</mat-icon>
+        <span>Login</span>
+      </button>
+    </div>
+    <mat-divider></mat-divider>
+  </ng-template>
   <mat-divider *ngIf="isLoggedIn()"></mat-divider>
   <div class="menu-item">
     <button
