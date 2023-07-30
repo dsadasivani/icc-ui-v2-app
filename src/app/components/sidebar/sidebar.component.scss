@@ -20,6 +20,18 @@
   .menu-button:focus {
     background-color: #2c3344;
   }
+  .menu-button.active {
+    background-color: white;
+  }
+  .menu-button.active span {
+    letter-spacing: 2px;
+    color: #0f172b;
+    font-weight: 400;
+    font-size: 16px;
+  }
+  .menu-button.active mat-icon {
+    color: #0f172b;
+  }
 }
 mat-icon {
   color: rgba(177, 183, 183, 0.601);
