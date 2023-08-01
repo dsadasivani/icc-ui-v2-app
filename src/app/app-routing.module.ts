@@ -20,14 +20,14 @@ const routes: Routes = [
     component: RegisterComponent,
   },
   {
-    path: 'update-profile',
-    component: UpdateProfileComponent,
-    canActivate: [AuthGuard],
-  },
-  {
     path: '',
     component: HomeComponent,
     children: [
+      {
+        path: 'update-profile',
+        component: UpdateProfileComponent,
+        canActivate: [AuthGuard],
+      },
       {
         path: 'about',
         component: AboutComponent,
