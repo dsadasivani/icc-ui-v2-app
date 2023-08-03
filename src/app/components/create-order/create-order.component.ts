@@ -328,6 +328,7 @@ export class CreateOrderComponent implements OnInit {
   save() {
     this.ValidateDuplicateTransport();
     console.log(this.orderObject);
+    this.orderObject.gstin = this.orderObject.gstin.toUpperCase();
     this.isLoading = true;
     this.orderService.addOrderDetails(this.orderObject).subscribe({
       next: (result: any) => {
@@ -355,6 +356,7 @@ export class CreateOrderComponent implements OnInit {
   update() {
     this.ValidateDuplicateTransport();
     console.log(this.orderObject);
+    this.orderObject.gstin = this.orderObject.gstin.toUpperCase();
     this.isLoading = true;
     this.orderService
       .updateOrderDetails(this.orderObject, this.existingOrder.orderId)
