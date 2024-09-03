@@ -1,0 +1,30 @@
+.container {
+    padding: 24px;
+  }
+
+  img {
+    width: 100%;
+    height: 200px;
+    /* object-fit: cover; */
+    object-fit: contain;
+  }
+
+  .responsive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 24px;
+  }
+  .mat-card-header .mat-card-title {
+    line-height: 1.5em;
+  }
+
+  .mat-card-actions {
+    display: flex;
+    justify-content: flex-end; 
+    margin-top: auto; 
+  }
+  .mat-card-content {
+    flex-grow: 1; 
+    text-align: justify;
+    word-spacing: 1px;
+  }
