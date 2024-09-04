@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Build the Angular application in production mode
-RUN npm run build --production
+RUN npm run build
 
 # Install http-server-spa globally
 RUN npm install -g http-server-spa
