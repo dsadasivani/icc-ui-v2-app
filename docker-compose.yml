@@ -12,8 +12,8 @@ services:
       NODE_ENV: production
     networks:
       - app-network
-    volumes:
-      - ./dist/icc-ui-v2:/app/dist/icc-ui-v2 # Bind mount for development ease
+    # volumes:
+    #   - ./dist/icc-ui-v2:/app/dist/icc-ui-v2 # Bind mount for development ease
 
 networks:
   app-network:
